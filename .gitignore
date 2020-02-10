@@ -1,0 +1,13 @@
+# Ignore everything
+*
+
+# Except for ...
+!README.md
+!LICENSE
+!Pipfile*
+
+# Python files
+!*.py
+
+# And of course
+!.gitignore
