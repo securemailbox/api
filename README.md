@@ -49,8 +49,8 @@ python -m pip install --user black pipenv
 #### Running
 
 ```bash
-# Start flask in debug mode (can also be done with the --debug flag)
-export FLASK_DEBUG=1
+# Start flask with hot reload and the debugger
+export FLASK_ENV=development
 
 # Set host to 0.0.0.0 so it can be accessed on the network
 pipenv run flask run --host 0.0.0.0 --port 8080
