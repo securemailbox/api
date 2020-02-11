@@ -10,7 +10,13 @@ def index():
 
 @app.route("/register/", methods=["POST"])
 def register():
-    fingerprint = request.json.get("fingerprint")
+    if request.json is None:
+        return jsonify({"error": "no request data"}), 400
+
+    fingerprint = request.json.get("fingerprint", None)
+    if fingerprint is None:
+        return jsonify({"error": "fingerprint was not given"}), 400
+
     fingerprints[fingerprint] = {
         "messages": []
     }
@@ -18,7 +24,10 @@ def register():
 
 @app.route("/send/", methods=["POST"])
 def send():
-    fingerprint = request.json.get("fingerprint")
+    fingerprint = request.json.get("fingerprint", None)
+    if fingerprint is None:
+        return jsonify({"error": "fingerprint was not given"}), 400
+
     message = request.json.get("message")
 
     # Make sure user exists before trying to add a message
@@ -31,7 +40,9 @@ def send():
 
 @app.route("/retrieve/", methods=["POST"])
 def retrieve():
-    fingerprint = request.json.get("fingerprint")
+    fingerprint = request.json.get("fingerprint", None)
+    if fingerprint is None:
+        return jsonify({"error": "fingerprint was not given"}), 400
 
         # Make sure user exists before trying to add a message
     if (user := fingerprints.get(fingerprint, None)) is not None:
