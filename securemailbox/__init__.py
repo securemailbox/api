@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.config.from_object("default_settings")
 
 # Allow setting overrides from environment
-app.config.from_envvar("SEcUREMAILBOX_SETTINGS")
+# app.config.from_envvar("SECUREMAILBOX_SETTINGS")
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -29,5 +29,5 @@ app.register_blueprint(retrieve_blueprint)
 
 # Create database tables
 # Note: Model classes must be imported prior to this running
-from models import *
+from .models import *
 db.create_all()
