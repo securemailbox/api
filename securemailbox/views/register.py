@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 
-from app import db
+from securemailbox import db
 
 # Create the `register` blueprint
 # Docs: 
