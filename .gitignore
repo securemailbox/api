@@ -7,6 +7,7 @@
 !Pipfile*
 !Dockerfile
 !.dockerignore
+!pyproject.toml
 
 # Python files
 !*.py

@@ -84,3 +84,17 @@ docker run -it -p 8082:8082 securemailbox/api
 ### Testing
 
 TBD
+
+### Formatting
+
+This repository uses [black](https://github.com/psf/black) to format its files. You can read more about it [here](https://black.readthedocs.io/en/stable/)
+
+To run black on the project:
+
+```bash
+# To check which files would be updated
+black --check . securemailbox
+
+# To run black on the whole repo
+black . securemailbox
+```

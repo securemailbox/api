@@ -30,4 +30,5 @@ app.register_blueprint(retrieve_blueprint)
 # Create database tables
 # Note: Model classes must be imported prior to this running
 from .models import *
+
 db.create_all()
