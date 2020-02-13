@@ -46,17 +46,33 @@ Other tools used in development:
 python -m pip install --user black
 ```
 
-#### Running on Bare Metal
+### Building and Running
+
+#### Database management
+
+The application uses postgres as it's database backend.
+
+The quickest way to stand up a postgres instance is with docker:
 
 ```bash
-# Start flask with hot reload and the debugger
-export FLASK_ENV=development
+# Run and daemonize a postgres instance exposing it on 127.0.0.1:5432
+# Docs: https://hub.docker.com/_/postgres/
+docker run -dp "5432:5432" -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=securemailbox postgres:latest
+export DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/securemailbox
+```
+
+#### Developing on Bare Metal
+
+```bash
+# Point flask to run the securemailbox app in development mode
+export FLASK_APP=securemailbox FLASK_ENV=development
 
 # Set host to 0.0.0.0 so it can be accessed on the network
 pipenv run flask run --host 0.0.0.0 --port 8080
 ```
 
-#### Running in Docker
+#### Building with Docker
+
 ```bash
 # Build the container setting ENV vars if needed
 docker build -t securemailbox/api:latest .
@@ -64,3 +80,7 @@ docker build -t securemailbox/api:latest .
 # Run container in interactive mode
 docker run -it -p 8082:8082 securemailbox/api
 ```
+
+### Testing
+
+TBD

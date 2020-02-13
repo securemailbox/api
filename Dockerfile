@@ -7,4 +7,4 @@ RUN pipenv install
 
 ENV FLASK_ENV "production"
 
-CMD [ "pipenv", "run", "flask", "run", "--host", "0.0.0.0", "--port", "8082" ]
+CMD [ "pipenv", "run", "flask", "run", "--port", "8082" ]
