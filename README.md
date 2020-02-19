@@ -78,7 +78,7 @@ pipenv run flask run --host 0.0.0.0 --port 8080
 docker build -t securemailbox/api:latest .
 
 # Run container in interactive mode
-docker run -it -p 8082:8082 securemailbox/api
+docker run -it --network host -e DATABASE_URL=$DATABASE_URL securemailbox/api
 ```
 
 ### Testing
