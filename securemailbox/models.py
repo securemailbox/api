@@ -9,7 +9,7 @@ FINGERPRINT_LENGTH = 100
 class Mailbox(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     fingerprint = db.Column(db.String(FINGERPRINT_LENGTH), unique=True, nullable=False)
-    is_active = db.Column(db.Boolean)
+    is_active = db.Column(db.Boolean, default=True)
 
     messages = db.relationship("Message", backref="mailbox", lazy=True)
 
