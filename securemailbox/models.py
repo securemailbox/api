@@ -5,6 +5,7 @@ from . import db
 # TODO: Determine what a good fingerprint length is
 FINGERPRINT_LENGTH = 100
 
+
 class Mailbox(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     fingerprint = db.Column(db.String(FINGERPRINT_LENGTH), unique=True, nullable=False)
@@ -12,7 +13,6 @@ class Mailbox(db.Model):
 
     messages = db.relationship("Message", backref="mailbox", lazy=True)
 
-    
     # Enable datetime support with `True`
     # Docs: https://docs.sqlalchemy.org/en/13/core/type_basics.html#sqlalchemy.types.DateTime.__init__
     created_at = db.Column(db.DateTime(True), default=datetime.utcnow)
@@ -20,6 +20,7 @@ class Mailbox(db.Model):
 
     def __repr__(self):
         return f"<Mailbox {self.fingerprint}"
+
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
