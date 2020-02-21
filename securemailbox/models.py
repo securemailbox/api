@@ -1,10 +1,11 @@
 
 from securemailbox import db
+from datetime import datetime
 
 # TODO: Determine what a good fingerprint length is
 FINGERPRINT_LENGTH = 100
 
-class Mailbox(db.model):
+class Mailbox(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     fingerprint = db.Column(db.String(FINGERPRINT_LENGTH), unique=True)
     is_active = db.Column(db.Boolean)
@@ -12,7 +13,7 @@ class Mailbox(db.model):
     created_at = db.Column(db.DateTime(True), default=datetime.utcnow)
     updated_at = db.Column(db.DateTime(True), default=datetime.utcnow)
 
-class Message(db.model):
+class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     message = db.Column(db.String(1000))
     sender_fingerprint = db.Column(db.String(FINGERPRINT_LENGTH))
