@@ -6,7 +6,12 @@ basedir = abspath(dirname(__file__))
 ### SQLAlchemy configuration details
 # Docs: https://flask-sqlalchemy.palletsprojects.com/en/2.x/config/
 
-SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL", None)
+user = environ['POSTGRES_USER']
+pwd = environ['POSTGRES_PASSWORD']
+db = environ['POSTGRES_DB']
+host = 'db' # docker-compose creates a hostname alias with the service name
+port = '5432' # default postgres port
+SQLALCHEMY_DATABASE_URI = 'postgres://%s:%s@%s:%s/%s' % (user, pwd, host, port, db)
 
 # Abort if we can't connect to the database
 assert (
