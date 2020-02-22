@@ -11,6 +11,8 @@ class Mailbox(db.Model):
     fingerprint = db.Column(db.String(FINGERPRINT_LENGTH), unique=True, nullable=False)
     is_active = db.Column(db.Boolean, default=True)
 
+    # One-to-many mailbox to messages relationship
+    # Docs: https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/#one-to-many-relationships
     messages = db.relationship("Message", backref="mailbox", lazy=True)
 
     # Enable datetime support with `True`
