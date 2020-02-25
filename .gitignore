@@ -1,0 +1,20 @@
+# Ignore everything
+*
+
+# Except for ...
+!README.md
+!LICENSE
+!Pipfile*
+!Dockerfile
+!.dockerignore
+!pyproject.toml
+
+# Python files
+!*.py
+!securemailbox/
+!securemailbox/*.py
+!securemailbox/**/
+!securemailbox/**/*.py
+
+# And of course
+!.gitignore
