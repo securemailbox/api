@@ -24,7 +24,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./conf.d:/etc/nginx/conf.d
+      - ./nginx:/etc/nginx/conf.d
     networks:
       - web_nw
     depends_on: 
