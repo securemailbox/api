@@ -1,1 +1,5 @@
+services:
+  - docker
 
+script:
+  - docker build -t securemailbox/api:latest .
