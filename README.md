@@ -81,6 +81,23 @@ docker build -t securemailbox/api:latest .
 docker run -it --network host -e DATABASE_URL=$DATABASE_URL securemailbox/api
 ```
 
+#### Building with docker-compose
+
+The container cluster uses:
+
+    python:3-slim for application code
+    postgres:latest for database management
+    nginx:latest for reverse proxying requests to/from app container
+
+The environment variables specifying the database user, password, name, host, and port are contained in the ```.env``` file.
+
+```bash
+# Build and run the docker-compose cluster
+docker-compose up --build
+```
+
+nginx is configured to use default port 80.
+
 ### Testing
 
 TBD
