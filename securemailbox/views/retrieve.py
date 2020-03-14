@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request, json
 
 from ..models import Mailbox
+from ..models import Message
 
 from securemailbox import db
 
@@ -10,60 +11,37 @@ retrieve_blueprint = Blueprint("retrieve", __name__)
 @retrieve_blueprint.route("/retrieve/", methods=["POST"])
 def retrieve():
 
-
- 	# fingerprint = request.json.get("fingerprint", None)
-    # fingerprint = request.get_json
-
+    data = request.get_json(force=True, silent=True)
     
-    # if request.json is None:
-    # 	return jsonify({"Error": True})
+    if data is None:
+        return jsonify({"Invalid JSON": True}), 400
+    else:
+        # Check if all the necessary fields exist before making the database calls
+        if 'mailbox_id' in data:
+            # Check if length is valid, not empty
+            if len(data['mailbox_id']) < 1:
+                return jsonify({"Invalid Length of Item": True}), 400 
+        else:
+            return jsonify({'Not all data present': True}), 400
 
-    fingerprint = request.get_json("fingerprint")
-    print(fingerprint)
-    # if fingerprint is None:
-        # return jsonify({'error': True}), 400
-
-    # print(request.method)
-
-    # print(request.is_json)
-
-    # content = request.json
-    # print (content)
-    # print()
-
-    fingerprint = request.json.get("fingerprint", None)
-    extradata = request.json.get("extradata", None)
-
-
-    if fingerprint is not None and extradata is not None:
-    	return jsonify({"fingerprint": fingerprint, "extradata": extradata})
-
-
-    # return jsonify({"success": True})
-
-
-
-    # tables = db.get_tables_for_bind()
-    # mailtest = tables[0](fingerprint='oihjuhqfd', is_active=True)
-    # db.session.add(mailtest)
+    mailbox_num = data['mailbox_id']
+    
+    # Testing mailbox add and delete
+    # mail = Mailbox(fingerprint='qw', is_active=True)
+    # db.session.add(mail)
+    # # delete_mail = Mailbox.query.filter_by(id='1').first()
+    # # db.session.delete(delete_mail)
     # db.session.commit()
-    # return jsonify({"mail1": False})
 
-    # return jsonify({"success": True, "error": None})
+    # Testing message add
+    # mess = Message(message='new encrypted message right here', sender_fingerprint='1234',
+    #     mailbox_id=6)
+    # db.session.add(mess)
+    # db.session.commit()
 
-    # print (request.is_json)
-    # content = request.get_json()
-    # print (content)
-    # return 'JSON posted'
-    
-    # fingerprint = request.get_json("fingerprint", None)#("fingerprint", None)
-    # print(fingerprint)
-    # # if fingerprint == 12:
-    # #     print('yep')
-    # if fingerprint is None:
-    #     return jsonify({"error": "fingerprint is none"}), 400
+    # Testing getting multiple messages
+    message_receive = Message.query.filter_by(mailbox_id=mailbox_num).all()
+    for i in range(len(message_receive)):
+        print(message_receive[i].sender_fingerprint, message_receive[i].message, flush=True)
 
-    # mailbox = Mailbox.query.filter_by(fingerprint=fingerprint)
-
-    # messages = str(...)
-    # return jsonify({"success": True, messages: messages, "error": None})
+    return jsonify({"success": True})
