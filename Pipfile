@@ -9,6 +9,7 @@ verify_ssl = true
 flask = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
+psycopg2-binary = "*"
 psycopg2 = "*"
 
 [requires]
