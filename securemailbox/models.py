@@ -13,7 +13,7 @@ class Mailbox(db.Model):
 
     # One-to-many mailbox to messages relationship
     # Docs: https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/#one-to-many-relationships
-    messages = db.relationship("Message", backref="mailbox", lazy=True)
+    messages = db.relationship("Message", backref="mailbox", lazy="dynamic")
 
     # Enable datetime support with `True`
     # Docs: https://docs.sqlalchemy.org/en/13/core/type_basics.html#sqlalchemy.types.DateTime.__init__
@@ -21,7 +21,7 @@ class Mailbox(db.Model):
     updated_at = db.Column(db.DateTime(True), default=datetime.utcnow)
 
     def __repr__(self):
-        return f"<Mailbox {self.fingerprint}"
+        return f"<Mailbox {self.fingerprint}>"
 
 
 class Message(db.Model):
@@ -37,4 +37,4 @@ class Message(db.Model):
     updated_at = db.Column(db.DateTime(True), default=datetime.utcnow)
 
     def __repr__(self):
-        return f"<Message {self.message}"
+        return f"<Message {self.message}>"
