@@ -37,9 +37,27 @@ def retrieve():
         # Query all messages associated with the mailbox
         # TODO: Determine what should be done with all the messages
         # I.e. Are they deleted/archived? Are they marked as 'read'?
-        messages = mailbox.messages.all()
+        raw_messages = mailbox.messages.all()
+
+        # Manually unpack messages because `Message` object is not serializable
+        messages = []
+        for message in raw_messages:
+            messages.append(
+                {
+                    "message": message.message,
+                    "sender_fingerprint": message.sender_fingerprint,
+                    "sent_at": message.created_at,
+                }
+            )
+
         return (
-            jsonify({"success": True, "error": None, "data": {"messages": messages}}),
+            jsonify(
+                {
+                    "success": True,
+                    "error": None,
+                    "data": {"messages": messages, "count": len(messages)},
+                }
+            ),
             200,
         )
 
