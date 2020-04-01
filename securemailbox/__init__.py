@@ -21,10 +21,12 @@ migrate = Migrate(app, db)
 from securemailbox.views.register import register_blueprint
 from securemailbox.views.send import send_blueprint
 from securemailbox.views.retrieve import retrieve_blueprint
+from securemailbox.views.ascii_art import ascii_art_blueprint
 
 app.register_blueprint(register_blueprint)
 app.register_blueprint(send_blueprint)
 app.register_blueprint(retrieve_blueprint)
+app.register_blueprint(ascii_art_blueprint)
 
 
 # Create database tables
