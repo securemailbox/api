@@ -49,40 +49,41 @@ def retrieve():
     # #######################
 
     data = request.get_json(force=True, silent=True)
-    
+
     if data is None:
         return jsonify({"Invalid JSON": True}), 400
-    else:
-        # Check if all the necessary fields exist before making the database calls
-        if 'fingerprint' in data:
-            # Check if length is valid, not empty
-            if len(data['fingerprint']) < 1:
-                return jsonify({"Invalid Length of Item": True}), 400 
-        else:
-            return jsonify({'Not all data present': True}), 400
 
+    # Check if fingerprint is present in json request body
+    if 'fingerprint' not in data:
+        return jsonify({'fingerprint not in request': True}), 400
+
+    # search for fingerprint in mailbox table, assign to variable
     mailbox_num = Mailbox.query.filter_by(fingerprint=data['fingerprint']).first()
-    if mailbox_num is None:
-        return jsonify({'fingerprint not in database': True}), 400
 
+    # check if mailbox_num is a valid entry
+    if mailbox_num is None:
+        return jsonify({'fingerprint not in database': True}), 400    
+
+    # set mailbox_num to id attribute
     mailbox_num = mailbox_num.id
+
     sender_is_present = False
+
+    # check if sender_fingerprint is in request body
     if 'sender_fingerprint' in data:
-        if len(data['sender_fingerprint']) < 1:
-            return jsonify({"Invalid Length of Item": True}), 400
         sender_is_present = True
 
+    # query for messages differently if sender_fingerprint is provided
     if sender_is_present:
         message_receive = Message.query.filter_by(mailbox_id=mailbox_num, sender_fingerprint=data['sender_fingerprint']).all()
-        if len(message_receive) < 1:
+        if len(message_receive) == 0:
             return jsonify({'sender_fingerprint incorrect': True}), 400
         print('\tMessages in', data['fingerprint'], 'mailbox from sender', data['sender_fingerprint'],':')
     else:
         message_receive = Message.query.filter_by(mailbox_id=mailbox_num).all()
-        if len(message_receive) < 1:
-            return jsonify({'sender_fingerprint incorrect': True}), 400
         print('\tMessages in', data['fingerprint'], 'mailbox:')
 
+    # print messages, will change to response soon
     for i in range(len(message_receive)):
         print(message_receive[i].sender_fingerprint, ':', message_receive[i].message, flush=True)
 
