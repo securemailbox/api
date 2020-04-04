@@ -78,13 +78,20 @@ def retrieve():
         message_receive = Message.query.filter_by(mailbox_id=mailbox_num, sender_fingerprint=data['sender_fingerprint']).all()
         if len(message_receive) == 0:
             return jsonify({'sender_fingerprint incorrect': True}), 400
-        print('\tMessages in', data['fingerprint'], 'mailbox from sender', data['sender_fingerprint'],':')
     else:
         message_receive = Message.query.filter_by(mailbox_id=mailbox_num).all()
-        print('\tMessages in', data['fingerprint'], 'mailbox:')
 
-    # print messages, will change to response soon
+    # return all fields of all related messages
+    all_messages_dict = {}
+
     for i in range(len(message_receive)):
-        print(message_receive[i].sender_fingerprint, ':', message_receive[i].message, flush=True)
+        message_dict = {}
+        message_dict["message"] = message_receive[i].message
+        message_dict["sender_fingerprint"] = message_receive[i].sender_fingerprint
+        message_dict["mailbox_id"] = message_receive[i].mailbox_id
+        message_dict["created_at"] = message_receive[i].created_at
+        message_dict["updated_at"] = message_receive[i].updated_at
 
-    return jsonify({"success": True})
+        all_messages_dict[message_receive[i].id] = message_dict
+
+    return jsonify(all_messages_dict), 200
