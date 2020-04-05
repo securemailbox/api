@@ -1,5 +1,13 @@
+language: python
+python:
+  - "3.8"
 services:
   - docker
-
+install:
+  - pip install --upgrade pip setuptools
+  - pip install pipenv
+  - pip install --upgrade pytest
+  - pipenv install
 script:
+  - pytest
   - docker build -t securemailbox/api:latest .
