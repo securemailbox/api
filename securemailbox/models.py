@@ -39,9 +39,6 @@ class Message(db.Model):
     updated_at = db.Column(db.DateTime(True), default=datetime.utcnow)
 
     def __repr__(self):
-<<<<<<< HEAD
-        return f"<Message {self.message}>"
-=======
         return f"<Message {self.message}"
 
 
@@ -55,4 +52,3 @@ class Art(db.Model):
     # Docs: https://docs.sqlalchemy.org/en/13/core/type_basics.html#sqlalchemy.types.DateTime.__init__
     created_at = db.Column(db.DateTime(True), default=datetime.utcnow)
     updated_at = db.Column(db.DateTime(True), default=datetime.utcnow)
->>>>>>> e1a4f8ba56ad28b12655f6c8ca4cabe9de1d539b
