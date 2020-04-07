@@ -9,10 +9,9 @@ env:
 install:
   - pip install --upgrade pip setuptools
   - pip install pipenv
-  - pip install --upgrade pytest
   - pipenv install
 before_script:
   - psql -c 'create database securemailbox;' -U postgres
 script:
-  - pytest
+  - pipenv run pytest
   - docker build -t securemailbox/api:latest .
