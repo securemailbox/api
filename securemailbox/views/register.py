@@ -3,6 +3,7 @@ from sqlalchemy.exc import IntegrityError
 
 from securemailbox import db
 from ..models import Mailbox
+from ..constants import FINGERPRINT_LENGTH
 
 # Create the `register` blueprint
 # Docs:
@@ -17,9 +18,15 @@ def register():
 
     # Ensure all fields in request are not NULL
     for field in ["fingerprint"]:
-        if request.json.get(field, None) is None:
+        field_to_check = request.json.get(field, None)
+        if field_to_check is None:
             return (
                 jsonify({"success": False, "error": f"field '{field}' is required."}),
+                400,
+            )
+        if len(field_to_check) > FINGERPRINT_LENGTH:
+            return (
+                jsonify({"success": False, "error": f"field '{field}' is not a valid length."}),
                 400,
             )
     try:
