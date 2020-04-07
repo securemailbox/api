@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from sqlalchemy.dialects.postgresql import ARRAY
+
 from . import db
 
 # TODO: Determine what a good fingerprint length is
@@ -37,4 +39,20 @@ class Message(db.Model):
     updated_at = db.Column(db.DateTime(True), default=datetime.utcnow)
 
     def __repr__(self):
+<<<<<<< HEAD
         return f"<Message {self.message}>"
+=======
+        return f"<Message {self.message}"
+
+
+class Art(db.Model):
+    __tablename__ = "art"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    art = db.Column(db.Text, nullable=False)
+    tags = db.Column(ARRAY(db.String))
+
+    # Enable datetime support with `True`
+    # Docs: https://docs.sqlalchemy.org/en/13/core/type_basics.html#sqlalchemy.types.DateTime.__init__
+    created_at = db.Column(db.DateTime(True), default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime(True), default=datetime.utcnow)
+>>>>>>> e1a4f8ba56ad28b12655f6c8ca4cabe9de1d539b
