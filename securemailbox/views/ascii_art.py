@@ -41,7 +41,7 @@ def get_one(art_id):
                 jsonify(
                     {
                         "data": None,
-                        "error": f"the piece of art with id '{art_id}'' does not exist",
+                        "error": f"the piece of art with id '{art_id}' does not exist",
                     }
                 ),
                 404,
