@@ -8,6 +8,9 @@
 !Dockerfile
 !.dockerignore
 !pyproject.toml
+!docker-compose.yml
+!nginx/flaskapp.conf
+!.env
 
 # Python files
 !*.py
