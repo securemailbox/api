@@ -20,6 +20,10 @@ def retrieve():
     if 'fingerprint' not in data:
         return jsonify({'success': False, 'error': 'fingerprint not in request', 'data': None}), 400
 
+    # Check if fingerprint value is string variable before query
+    if(isinstance(data['fingerprint'], str) == False):
+        return jsonify({'success': False, 'error': 'fingerprint value not valid string', 'data': None}), 400
+
     # search for fingerprint in mailbox table, assign to variable
     mailbox_num = Mailbox.query.filter_by(fingerprint=data['fingerprint']).first()
 
