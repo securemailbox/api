@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request, json
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.exc import NoResultFound
 
 from ..models import Mailbox
 from ..models import Message
@@ -29,8 +30,8 @@ def retrieve():
     # search for fingerprint in mailbox table
     try:
         mailbox_id = Mailbox.query.filter_by(fingerprint=req_fingerprint).first()
-    except IntegrityError:
-        return jsonify({'success': False, 'error': 'Unknown error with fingerprint', 'data': None}), 400
+    except NoResultFound:
+        return jsonify({'success': False, 'error': 'fingerprint not found in database', 'data': None}), 400
 
     # check if mailbox_id is a valid entry before using it
     if mailbox_id is None:
@@ -53,7 +54,7 @@ def retrieve():
         return jsonify({'success': False, 'error': 'Unknown error receiving messages', 'data': None}), 400
 
     except BaseException as e:
-        return jsonify({"success": False, "error": repr(e)}), 500
+        return jsonify({'success': False, 'error': repr(e), 'data': None}), 500
 
     # return all fields of all related messages
     all_messages = []
