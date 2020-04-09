@@ -31,6 +31,23 @@ python --version # Python 3.8.1
 
 Installing packages and managing virtual environments can be easily done with [pipenv](https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv):
 
+Note: this project requires the use of psycopg2, a database adapter for postgresql.
+It requires additional system dependencies before it can be installed.
+
+Installing on linux:
+
+```bash
+sudo apt-get install -y libpq-dev gcc
+```
+
+Installing on MacOS:
+
+```bash
+brew install postgresql
+```
+
+After that, you can continue with package installation:
+
 ```bash
 # Upgrade pip and setuptools to ensure we can build libraries against 3.8
 python -m pip install --upgrade pip setuptools
