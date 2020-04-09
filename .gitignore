@@ -6,6 +6,7 @@
 !LICENSE
 !Pipfile*
 !Dockerfile
+!Dockerfile.production
 !.dockerignore
 !pyproject.toml
 !docker-compose.yml
