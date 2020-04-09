@@ -1,9 +1,7 @@
 from datetime import datetime
 
 from . import db
-
-# TODO: Determine what a good fingerprint length is
-FINGERPRINT_LENGTH = 100
+from .constants import FINGERPRINT_LENGTH
 
 
 class Mailbox(db.Model):
