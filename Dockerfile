@@ -12,7 +12,7 @@ RUN python -m pip install --upgrade pip setuptools pipenv
 # Only copy dependency files so pipenv install layer can be cached
 COPY Pipfile .
 COPY Pipfile.lock .
-RUN pipenv install
+RUN pipenv install --deploy
 
 COPY . .
 ENV FLASK_ENV "production"
