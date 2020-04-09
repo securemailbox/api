@@ -2,3 +2,6 @@
 LICENSE
 README.md
 .vscode/
+db-data/
+nginx/
+
