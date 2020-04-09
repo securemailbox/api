@@ -6,9 +6,9 @@ services:
   - postgresql
 env:
   - DATABASE_URL="postgres://postgres:postgres@127.0.0.1:5432/securemailbox"
+  - FLASK_ENV=testing
 install:
-  - pip install --upgrade pip setuptools
-  - pip install pipenv
+  - pip install --upgrade pip setuptools pipenv
   - pipenv install
 before_script:
   - psql -c 'create database securemailbox;' -U postgres
