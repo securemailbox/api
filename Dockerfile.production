@@ -1,0 +1,30 @@
+FROM python:3.7-slim as build-env
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    # Required for building psycopg2 from source 
+    apt-get install -y libpq-dev python-dev locate gcc \
+    && rm -rf /var/lib/apt/lists/
+
+WORKDIR /app
+
+# Install and upgrade pip, setuptools, and pipenv
+RUN python -m pip install --upgrade pip setuptools pipenv
+
+# Only copy dependency files so pipenv install layer can be cached
+COPY Pipfile Pipfile.lock ./
+RUN PIPENV_VENV_IN_PROJECT=1 python -m pipenv install --deploy
+# Overwrite symlink for compatibility with distroless layout
+RUN ln -sf /usr/bin/python3 .venv/bin/python
+RUN whereis libpg.so.5
+
+# Copy the virtualenv into a distroless image
+FROM gcr.io/distroless/python3-debian10:debug
+WORKDIR /app
+COPY --from=build-env /app/.venv /venv
+COPY --from=build-env /usr/local/lib/libpython3.7m.so.1.0 /usr/lib/
+COPY . .
+ENV FLASK_ENV "production"
+ENV FLASK_APP "securemailbox"
+RUN ls /usr/lib
+ENTRYPOINT [ "/venv/bin/python", "-m", "flask", "run", "--port=8082" ]
