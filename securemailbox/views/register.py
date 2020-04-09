@@ -24,7 +24,7 @@ def register():
                 jsonify({"success": False, "error": f"field '{field}' is required."}),
                 400,
             )
-        if len(field_to_check) > FINGERPRINT_LENGTH:
+        if len(field_to_check) != FINGERPRINT_LENGTH:
             return (
                 jsonify({"success": False, "error": f"field '{field}' is not a valid length."}),
                 400,
