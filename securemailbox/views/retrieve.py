@@ -45,7 +45,7 @@ def retrieve():
 
     # search for fingerprint in mailbox table
     try:
-        mailbox_id = Mailbox.query.filter_by(fingerprint=req_fingerprint).first()
+        mailbox_id = db.session.query(Mailbox.id).filter_by(fingerprint=req_fingerprint).first()
     except NoResultFound:
         return (
             jsonify(
@@ -66,9 +66,6 @@ def retrieve():
             ),
             400,
         )
-
-    # set mailbox_num to id attribute after checking it's not None
-    mailbox_id = mailbox_id.id
 
     # if sender_fingerprint provided, it is set, otherwise None
     req_sender_fingerprint = request.json.get("sender_fingerprint", None)
