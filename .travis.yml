@@ -14,3 +14,5 @@ before_script:
 script:
   - pipenv run pytest
   - docker build -t securemailbox/api:latest .
+  - docker save securemailbox/api:latest > securemailbox.tar
+  - scp -i DEPLOYMENT_KEY securemailbox.tar DEPLOYMENT_TARGET
