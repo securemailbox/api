@@ -1,5 +1,6 @@
 
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request, json
+from sqlalchemy.orm.exc import NoResultFound
 
 from ..models import Mailbox
 from ..models import Message
@@ -25,32 +26,22 @@ def send():
         return jsonify({"error": "no message"}), 400
     
     #update messages associated
-    #not sure how to make the id unique and get current user fingerprint? clarification
-    #needed/retrieve all ids to check for available? counter?
-    #message not retrieved for testing purposes.
-
-    mailbox = Mailbox.query.filter_by(fingerprint=fingerprint)
-
+    try:
+        mailbox_id = db.session.query(Mailbox.id).filter_by(fingerprint=fingerprint).first()
+    except NoResultFound:
+    mailbox_id = None    
+    
     #validity
-    if mailbox is None:
+    if mailbox_id is None:
         return jsonify({"error": "no fingerprint match"}), 400
 
-    #make new message id
-    #idbox = Message.query.all()
+    mail = Message.query.filter_by(mailbox_id=mailbox_id) 
 
-    #for x in idbox:
-    #    if x == None:
-    #        break
-
-    #rplace 1 with x for available id number?
-    
-    message_ob = Message(id = 1, message=message_t,sender_fingerprint=sender_fingerprint, mailbox_id=mailbox.id)
+    message_ob = Message(message=message_t,sender_fingerprint=sender_fingerprint, mailbox_id=mailbox_id)
     db.session.add(message_ob)
     db.session.commit()
     
     return jsonify({"success": True, "error": None})
 
-    
-    #return jsonify({"success": True, "error": None})
 #messages in a mailbox instance is where message is added
 #to what I have now implies message not within mailbox needs modification
