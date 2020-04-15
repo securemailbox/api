@@ -29,7 +29,7 @@ def send():
     try:
         mailbox_id = db.session.query(Mailbox.id).filter_by(fingerprint=fingerprint).first()
     except NoResultFound:
-    mailbox_id = None    
+        mailbox_id = None    
     
     #validity
     if mailbox_id is None:
