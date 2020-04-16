@@ -28,4 +28,4 @@ deploy:
     - scp -i DEPLOYMENT_KEY securemailbox.tar DEPLOYMENT_TARGET
     - ssh -i DEPLOYMENT_KEY DEPLOYMENT_TARGET docker load -i securemail.tar
     - ssh -i DEPLOYMENT_KEY DEPLOYMENT_TARGET docker stop securemailbox
-    - ssh -i DEPLOYMENT_KEY DEPLOYMENT_TARGET docker run -d --name securemailbox --network host -e DATABASE_URL=postgres://postgres:postgres@localhost:5432/securemailbox securemailbox:latest
+    - ssh -i DEPLOYMENT_KEY DEPLOYMENT_TARGET docker run -d --name securemailbox --network host -e DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB} securemailbox:latest
