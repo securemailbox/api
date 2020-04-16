@@ -30,11 +30,19 @@ def send():
     try:
         mailbox_id = db.session.query(Mailbox.id).filter_by(fingerprint=fingerprint).first()
     except NoResultFound:
-        mailbox_id = None    
-    
+        mailbox_id = None
+
+    try:
+        mailbox_send_id = db.session.query(Mailbox.id).filter_by(fingerprint=sender_fingerprint).first()
+    except NoResultFound:
+        mailbox_send_id = None
     #validity
     if mailbox_id is None:
-        return jsonify({"error": "no fingerprint match"}), 400
+        return jsonify({"error": "no recipient fingerprint match"}), 400
+    if mailbox_send_id is None:
+        return jsonify({"error": "no sender fingerprint match"}), 400
+
+    
 
     #dont need this
     #mail = Message.query.filter_by(mailbox_id=mailbox_id)
