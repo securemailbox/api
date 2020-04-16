@@ -1,6 +1,7 @@
 
 from flask import Blueprint, jsonify, request, json
 from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import DBAPIError
 
 from ..models import Mailbox
 from ..models import Message
@@ -29,17 +30,21 @@ def send():
     try:
         mailbox_id = db.session.query(Mailbox.id).filter_by(fingerprint=fingerprint).first()
     except NoResultFound:
-    mailbox_id = None    
+        mailbox_id = None    
     
     #validity
     if mailbox_id is None:
         return jsonify({"error": "no fingerprint match"}), 400
 
-    mail = Message.query.filter_by(mailbox_id=mailbox_id) 
-
-    message_ob = Message(message=message_t,sender_fingerprint=sender_fingerprint, mailbox_id=mailbox_id)
-    db.session.add(message_ob)
-    db.session.commit()
+    #dont need this
+    #mail = Message.query.filter_by(mailbox_id=mailbox_id)
+    
+    try:
+        message_ob = Message(message=message_t,sender_fingerprint=sender_fingerprint, mailbox_id=mailbox_id)
+        db.session.add(message_ob)
+        db.session.commit()
+    except DBAPIError:
+        return jsonify({"error": "message failed to add to messages"}), 400
     
     return jsonify({"success": True, "error": None})
 
