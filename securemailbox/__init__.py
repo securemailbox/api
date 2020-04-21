@@ -2,6 +2,8 @@ from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_swagger import swagger
+from flask_swagger_ui import get_swaggerui_blueprint
+
 __version__ = "0.8.0"
 
 app = Flask(__name__)
@@ -25,6 +27,16 @@ from securemailbox.views.retrieve import retrieve_blueprint
 app.register_blueprint(register_blueprint)
 app.register_blueprint(send_blueprint)
 app.register_blueprint(retrieve_blueprint)
+
+SWAGGER_URL = '/swagger'
+API_URL = '/spec/'
+SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+)
+
+app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
+
 
 @app.route("/spec/")
 def spec():

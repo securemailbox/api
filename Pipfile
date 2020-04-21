@@ -12,6 +12,7 @@ flask-sqlalchemy = "*"
 flask-migrate = "*"
 psycopg2 = "*"
 flask-swagger = "*"
+flask-swagger-ui = "*"
 
 [requires]
 python_version = "3.8"
