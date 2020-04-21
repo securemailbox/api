@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-__version__ = "0.1.0"
+__version__ = "0.8.0"
 
 app = Flask(__name__)
 
