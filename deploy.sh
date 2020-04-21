@@ -27,7 +27,7 @@ sleep 2
 running=$( ${SSH} root@${DEPLOYMENT_TARGET} "docker inspect -f {{.State.Running}} securemailbox" )
 if [[ $running = "true" ]]
 then
-  exit 0
+  echo "Container now running" && exit 0
 else
-  exit 1
+  echo "Expected container running state to be 'true' got '$running'" && exit 1
 fi
