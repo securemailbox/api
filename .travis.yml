@@ -26,7 +26,7 @@ deploy:
   skip_cleanup: true
   on:
     repo: securemailbox/api
-    branch: master
+    branch: release
   -script:
     - docker save securemailbox:latest > securemailbox.tar
     - sshpass -e scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null securemailbox.tar root@${DEPLOYMENT_TARGET}:/root/securemailbox.tar
