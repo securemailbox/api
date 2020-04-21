@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request, json
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
+from flask_swagger import swagger
 
 from ..models import Mailbox
 from ..models import Message
@@ -10,9 +11,14 @@ from securemailbox import db
 # Create the `retrieve` blueprint
 retrieve_blueprint = Blueprint("retrieve", __name__)
 
-
 @retrieve_blueprint.route("/retrieve/", methods=["POST"])
 def retrieve():
+
+    """
+    Retrieve Message Information
+
+    swagger_from_file: securemailbox/views/docs/retrieve.yml
+    """
 
     # Check for valid json request
     if not request.is_json:

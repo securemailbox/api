@@ -1,7 +1,7 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-
+from flask_swagger import swagger
 __version__ = "0.8.0"
 
 app = Flask(__name__)
@@ -25,6 +25,13 @@ from securemailbox.views.retrieve import retrieve_blueprint
 app.register_blueprint(register_blueprint)
 app.register_blueprint(send_blueprint)
 app.register_blueprint(retrieve_blueprint)
+
+@app.route("/spec/")
+def spec():
+    swag = swagger(app, from_file_keyword='swagger_from_file')
+    swag['info']['version'] = __version__
+    swag['info']['title'] = "Secure Mailbox"
+    return jsonify(swag)
 
 
 # Create database tables

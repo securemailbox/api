@@ -12,6 +12,8 @@ services:
       - ./db-data:/var/lib/postgresql/data
     networks:
       - db_nw
+    ports:
+      - "5432:5432"
   flaskapp:
     build: .
     environment:
@@ -21,6 +23,8 @@ services:
       - web_nw
     depends_on:
       - db
+    ports:
+      - "8082:8082"  
   nginx:
     image: "nginx:latest"
     ports:
