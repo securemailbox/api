@@ -24,7 +24,7 @@ ${SSH} root@${DEPLOYMENT_TARGET} "docker rm securemailbox"
 ${SSH} root@${DEPLOYMENT_TARGET} "docker load -i securemailbox.tar"
 ${SSH} root@${DEPLOYMENT_TARGET} "docker run -d --name securemailbox --network host -e DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB} securemailbox:latest"
 sleep 2
-running=$( sshpass -e ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${DEPLOYMENT_TARGET} "docker inspect -f {{.State.Running}} securemailbox" )
+running=$( ${SSH} root@${DEPLOYMENT_TARGET} "docker inspect -f {{.State.Running}} securemailbox" )
 if [[ $running = "true" ]]
 then
   exit 0
