@@ -27,7 +27,7 @@ deploy:
   on:
     repo: securemailbox/api
     branch: release
-  -script:
+  script:
     - docker save securemailbox:latest > securemailbox.tar
     - sshpass -e scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null securemailbox.tar root@${DEPLOYMENT_TARGET}:/root/securemailbox.tar
     - sshpass -e ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${DEPLOYMENT_TARGET} "docker load -i securemail.tar"
