@@ -19,17 +19,14 @@ script:
   - pipenv run pytest
   - docker build -t securemailbox:latest .
 deploy:
-  provider: releases
-  api_key:
-    secure: n97IcmHmgxJxoUx6zs+iyUFuRbMf5qEu4xTLx6Lh6EpRILA0A83qLH3S5jdRjeU7OFBowkI69zJBi/4aH1jUEdI2jxrOrus+qPssKdtHZScS5HdNc5+lt3Qr/TpHPwbDvu2akgZx2olwVO/ku7bWJeK0ftpsT44oYQ6prfg/lflls3lkKl6AH71VbAugyveMoGi6GZz3n7HdgX23cjaDpzb+7ZVFqutiP5SHCfQt7lH4qF0erzwHWg9HomiG/LlxGrhNr1jwn5F6ez0UET654IeE6lzoIXs7odfDvc8+jkj8mq94r8xc7DPNveJEsM0dNWKhEfoU0lW7m1oD9sbZTi34cRxvNlRNNmC2OHyW4CWnxrlZuNK+kxsh1gk43XubmjH1mZIan8AZDShtoggEM9/f7GJsiISakqheyPIREokWZKdn78Gucr5krrSfd9GQGtsy1nyhkz42SgUSwsSJjOOVjF4LJlF2F3DleuRRyd4e29gZsRU3TAv8ZTseX/tzXgl1PM+89nwfUb75CKwImOKT8V5K0ojoNxH3xbgnvt23KU6ILF2mVNwvFx55QQ9xQ7cUCNDxpw68aJ/Sl3vl2jy4+PPU3CeCkLZz1zn2Q0OZk0xadrBNhNDuuVNYYf2K4eAio4MXsD+6BZQY9/I8j+UGuUA7uWJacpOndSzzrz0=
-  file: securemailbox.tar
+  - provider: releases
+    api_key:
+      secure: n97IcmHmgxJxoUx6zs+iyUFuRbMf5qEu4xTLx6Lh6EpRILA0A83qLH3S5jdRjeU7OFBowkI69zJBi/4aH1jUEdI2jxrOrus+qPssKdtHZScS5HdNc5+lt3Qr/TpHPwbDvu2akgZx2olwVO/ku7bWJeK0ftpsT44oYQ6prfg/lflls3lkKl6AH71VbAugyveMoGi6GZz3n7HdgX23cjaDpzb+7ZVFqutiP5SHCfQt7lH4qF0erzwHWg9HomiG/LlxGrhNr1jwn5F6ez0UET654IeE6lzoIXs7odfDvc8+jkj8mq94r8xc7DPNveJEsM0dNWKhEfoU0lW7m1oD9sbZTi34cRxvNlRNNmC2OHyW4CWnxrlZuNK+kxsh1gk43XubmjH1mZIan8AZDShtoggEM9/f7GJsiISakqheyPIREokWZKdn78Gucr5krrSfd9GQGtsy1nyhkz42SgUSwsSJjOOVjF4LJlF2F3DleuRRyd4e29gZsRU3TAv8ZTseX/tzXgl1PM+89nwfUb75CKwImOKT8V5K0ojoNxH3xbgnvt23KU6ILF2mVNwvFx55QQ9xQ7cUCNDxpw68aJ/Sl3vl2jy4+PPU3CeCkLZz1zn2Q0OZk0xadrBNhNDuuVNYYf2K4eAio4MXsD+6BZQY9/I8j+UGuUA7uWJacpOndSzzrz0=
+    file: securemailbox.tar
+  # deploy to production
+  - provider: script
+    script: bash deploy.sh
   skip_cleanup: true
   on:
     repo: securemailbox/api
     branch: release
-  -script:
-    - docker save securemailbox:latest > securemailbox.tar
-    - sshpass -e scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null securemailbox.tar root@${DEPLOYMENT_TARGET}:/root/securemailbox.tar
-    - sshpass -e ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${DEPLOYMENT_TARGET} "docker load -i securemail.tar"
-    - sshpass -e ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${DEPLOYMENT_TARGET} "docker stop securemailbox"
-    - sshpass -e ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${DEPLOYMENT_TARGET} "docker run -d --name securemailbox --network host -e DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB} securemailbox:latest"
