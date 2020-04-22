@@ -12,6 +12,11 @@ register_blueprint = Blueprint("register", __name__)
 
 @register_blueprint.route("/register/", methods=["POST"])
 def register():
+    """
+    Register a Mailbox
+    
+    swagger_from_file: securemailbox/views/docs/register.yml
+    """
     # Ensure a valid request is received
     if not request.is_json:
         return jsonify({"success": False, "error": "Request must be valid json"}), 400

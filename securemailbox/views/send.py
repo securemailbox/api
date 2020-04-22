@@ -14,7 +14,11 @@ send_blueprint = Blueprint("send", __name__)
 
 @send_blueprint.route("/send/", methods=["POST"])
 def send():
-
+    """
+    Send a Message
+    
+    swagger_from_file: securemailbox/views/docs/send.yml
+    """
     #get fingerprint
     fingerprint = request.json.get("fingerprint", None)
     if fingerprint is None:
