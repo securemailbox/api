@@ -6,11 +6,14 @@
 !LICENSE
 !Pipfile*
 !Dockerfile
+!Dockerfile.prod
 !.dockerignore
 !pyproject.toml
 !docker-compose.yml
 !nginx/flaskapp.conf
 !.env
+!wsgi.ini
+!wsgi.prod.ini
 
 # Python files
 !*.py
