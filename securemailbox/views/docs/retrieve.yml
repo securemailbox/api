@@ -1,47 +1,74 @@
 Retrieve Message Information
 ---
 tags:
-  - users
+  - API Endpoints
 definitions:
   - schema:
-      id: Group
+      id: Retrieve Request
+      required:
+        - fingerprint
       properties:
-        name:
-         type: string
-         description: the group's name
+        fingerprint:
+          type: string
+          description: The fingerprint of the mailbox you would like to view messages for
+        sender_fingerprint:
+          type: string
+          description: Optional additional fingerprint to provide messages from specific sender
+  - schema:
+      id: Retrieve Response
+      properties:
+        data:
+          nullable: true
+          schema:
+            id: messages
+            properties:
+              messages:
+                type: array
+                description: Array of all messages that correspond to the request
+                items:
+                  schema:
+                    id: message
+                    properties:
+                      message:
+                        type: string
+                        description: Message content
+                      sender_fingerprint:
+                        type: string
+                        description: Fingerprint of the user who sent the message
+                      created_at:
+                        type: string
+                        format: date-time
+                      updated_at:
+                        type: string
+                        format: date-time
+              count:
+                type: integer
+                description: Number of messages
+        error:
+          type: string
+          nullable: true
+          description: Error message
+        success:
+          type: boolean
+          description: State of successful operation
+produces:
+  - application/json
 parameters:
   - in: body
-    name: body
+    name: Retrieve
+    description: Retrieve messages from a mailbox using a fingerprint, limit results to specific sender by providing sender fingerprint
     schema:
-      id: User
-      required:
-        - email
-        - name
-      properties:
-        email:
-          type: string
-          description: email for user
-        name:
-          type: string
-          description: name for user
-        address:
-          description: address for user
-          schema:
-            id: Address
-            properties:
-              street:
-                type: string
-              state:
-                type: string
-              country:
-                type: string
-              postalcode:
-                type: string
-        groups:
-          type: array
-          description: list of groups
-          items:
-            $ref: "#/definitions/Group"
+      $ref: "#/definitions/Retrieve Request"
 responses:
-  201:
-    description: User created
+  200:
+    description: Successfully retrieved messages from desired mailbox
+    schema:
+      $ref: "#/definitions/Retrieve Response"
+  400:
+    description: Unsuccessful message retrieval
+    schema:
+      $ref: "#/definitions/Retrieve Response"
+  500:
+    description: Unknown error
+    schema:
+      $ref: "#/definitions/Retrieve Response"

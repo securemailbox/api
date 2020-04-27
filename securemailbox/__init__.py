@@ -23,28 +23,15 @@ migrate = Migrate(app, db)
 from securemailbox.views.register import register_blueprint
 from securemailbox.views.send import send_blueprint
 from securemailbox.views.retrieve import retrieve_blueprint
+from securemailbox.views.docs.spec import spec_blueprint, spec_url
 
 app.register_blueprint(register_blueprint)
 app.register_blueprint(send_blueprint)
 app.register_blueprint(retrieve_blueprint)
+app.register_blueprint(spec_blueprint)
 
-SWAGGER_URL = '/swagger'
-API_URL = '/spec/'
-SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
-    SWAGGER_URL,
-    API_URL,
-)
-
-app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
-
-
-@app.route("/spec/")
-def spec():
-    swag = swagger(app, from_file_keyword='swagger_from_file')
-    swag['info']['version'] = __version__
-    swag['info']['title'] = "Secure Mailbox"
-    return jsonify(swag)
-
+SWAGGER_URL = "/docs"
+app.register_blueprint(get_swaggerui_blueprint(SWAGGER_URL, spec_url), url_prefix=SWAGGER_URL)
 
 # Create database tables
 # Note: Model classes must be imported prior to this running

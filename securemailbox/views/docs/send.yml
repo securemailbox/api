@@ -1,47 +1,54 @@
 Send a Message
 ---
 tags:
-  - users
+  - API Endpoints
 definitions:
   - schema:
-      id: Group
+      id: Send Request
+      required:
+        - fingerprint
+        - sender_fingerprint
+        - message
       properties:
-        name:
-         type: string
-         description: the group's name
+        fingerprint:
+          type: string
+          description: The fingerprint of the person receiving the message
+        sender_fingerprint:
+          type: string
+          description: The fingerprint of the person sending the message
+        message:
+          type: string
+          description: The message being sent
+  - schema:
+      id: Send Response Success
+      properties:
+        error:
+          type: string
+          nullable: true
+          description: Error message
+        success:
+          type: boolean
+          description: State of successful operation
+  - schema:
+      id: Send Response Failure
+      properties:
+        error:
+          type: string
+          description: Error message
+produces:
+  - application/json
 parameters:
   - in: body
-    name: body
+    name: Send
+    description: Send a message to another user using an existing fingerprint and sender fingerprint.
     schema:
-      id: User
-      required:
-        - email
-        - name
-      properties:
-        email:
-          type: string
-          description: email for user
-        name:
-          type: string
-          description: name for user
-        address:
-          description: address for user
-          schema:
-            id: Address
-            properties:
-              street:
-                type: string
-              state:
-                type: string
-              country:
-                type: string
-              postalcode:
-                type: string
-        groups:
-          type: array
-          description: list of groups
-          items:
-            $ref: "#/definitions/Group"
+      $ref: "#/definitions/Send Request"
 responses:
-  201:
-    description: User created
+  200:
+    description: Message successfully sent
+    schema:
+      $ref: "#/definitions/Send Response Success"
+  400:
+    description: Unsuccessful message sending
+    schema:
+      $ref: "#/definitions/Send Response Failure"

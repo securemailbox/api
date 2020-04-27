@@ -1,47 +1,63 @@
 Register a Mailbox
 ---
 tags:
-  - users
+  - API Endpoints
 definitions:
   - schema:
-      id: Group
+      id: Register Request
+      required:
+        - fingerprint
       properties:
-        name:
-         type: string
-         description: the group's name
+        fingerprint:
+          type: string
+          minLength: 40
+          maxLength: 40
+          description: The fingerprint used to create a new mailbox, must be 40 characters and unique
+  - schema:
+      id: Register Response Success
+      properties:
+        data:
+          nullable: true
+          schema:
+            id: mailbox_fp
+            properties:
+              mailbox:
+                type: string
+                description: The fingerprint of the mailbox created
+        error:
+          type: string
+          nullable: true
+          description: Error message
+        success:
+          type: boolean
+          description: State of successful operation
+  - schema:
+      id: Register Response Failure
+      properties:
+        error:
+          type: string
+          description: Error message
+        success:
+          type: boolean
+          description: State of successful operation
+produces:
+  - application/json
 parameters:
   - in: body
-    name: body
+    name: Register
+    description: Register a mailbox using a fingerprint, fingerprint must be 40 characters and unique.
     schema:
-      id: User
-      required:
-        - email
-        - name
-      properties:
-        email:
-          type: string
-          description: email for user
-        name:
-          type: string
-          description: name for user
-        address:
-          description: address for user
-          schema:
-            id: Address
-            properties:
-              street:
-                type: string
-              state:
-                type: string
-              country:
-                type: string
-              postalcode:
-                type: string
-        groups:
-          type: array
-          description: list of groups
-          items:
-            $ref: "#/definitions/Group"
+      $ref: "#/definitions/Register Request"
 responses:
-  201:
-    description: User created
+  200:
+    description: Mailbox successfully created with given fingerprint
+    schema:
+      $ref: "#/definitions/Register Response Success"
+  400:
+    description: Unsuccessful creation of mailbox
+    schema:
+      $ref: "#/definitions/Register Response Failure"
+  500:
+    description: Unknown error
+    schema:
+      $ref: "#/definitions/Register Response Failure"
