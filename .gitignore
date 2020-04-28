@@ -12,6 +12,7 @@
 !nginx/flaskapp.conf
 !.env
 !securemailbox/views/docs/*
+!deploy.sh
 
 # Python files
 !*.py
