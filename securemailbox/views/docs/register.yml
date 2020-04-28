@@ -10,9 +10,7 @@ definitions:
       properties:
         fingerprint:
           type: string
-          minLength: 40
-          maxLength: 40
-          description: The fingerprint used to create a new mailbox, must be 40 characters and unique
+          description: The fingerprint used to create a new mailbox, must be unique
   - schema:
       id: Register Response Success
       properties:
