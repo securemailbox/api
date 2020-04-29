@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, request, json
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
-from flask_swagger import swagger
 
 from ..models import Mailbox
 from ..models import Message
