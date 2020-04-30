@@ -12,6 +12,7 @@
 !docker-compose.yml
 !nginx/flaskapp.conf
 !.env
+!deploy.sh
 !wsgi.ini
 !wsgi.prod.ini
 
