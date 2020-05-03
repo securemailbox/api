@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_swagger_ui import get_swaggerui_blueprint
 
-__version__ = "0.8.0"
+__version__ = "0.8.1"
 
 app = Flask(__name__)
 
