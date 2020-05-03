@@ -10,6 +10,7 @@ from securemailbox import db
 # Create the `retrieve` blueprint
 retrieve_blueprint = Blueprint("retrieve", __name__)
 
+
 @retrieve_blueprint.route("/retrieve/", methods=["POST"])
 def retrieve():
 
@@ -50,7 +51,9 @@ def retrieve():
 
     # search for fingerprint in mailbox table
     try:
-        mailbox_id = db.session.query(Mailbox.id).filter_by(fingerprint=req_fingerprint).first()
+        mailbox_id = (
+            db.session.query(Mailbox.id).filter_by(fingerprint=req_fingerprint).first()
+        )
     except NoResultFound:
         return (
             jsonify(

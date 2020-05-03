@@ -31,7 +31,9 @@ app.register_blueprint(retrieve_blueprint)
 app.register_blueprint(spec_blueprint)
 
 SWAGGER_URL = "/docs"
-app.register_blueprint(get_swaggerui_blueprint(SWAGGER_URL, spec_url), url_prefix=SWAGGER_URL)
+app.register_blueprint(
+    get_swaggerui_blueprint(SWAGGER_URL, spec_url), url_prefix=SWAGGER_URL
+)
 
 # Create database tables
 # Note: Model classes must be imported prior to this running

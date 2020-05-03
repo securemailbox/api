@@ -29,10 +29,18 @@ def register():
                 jsonify({"success": False, "error": f"field '{field}' is required."}),
                 400,
             )
-        # Error if fingerprint is not a valid length 
-        if field_to_check == "fingerprint" and len(field_to_check) != FINGERPRINT_LENGTH:
+        # Error if fingerprint is not a valid length
+        if (
+            field_to_check == "fingerprint"
+            and len(field_to_check) != FINGERPRINT_LENGTH
+        ):
             return (
-                jsonify({"success": False, "error": f"field '{field}' is not a valid length."}),
+                jsonify(
+                    {
+                        "success": False,
+                        "error": f"field '{field}' is not a valid length.",
+                    }
+                ),
                 400,
             )
     try:
@@ -41,7 +49,7 @@ def register():
         db.session.add(new_mailbox)
         db.session.commit()
 
-        # If successful creation return 201 CREATED 
+        # If successful creation return 201 CREATED
         return (
             jsonify({"success": True, "error": None, "data": None}),
             201,
