@@ -1,4 +1,4 @@
-Register a Mailbox
+Create a new mailbox
 ---
 tags:
   - API Endpoints
@@ -10,52 +10,43 @@ definitions:
       properties:
         fingerprint:
           type: string
-          description: The fingerprint used to create a new mailbox, must be unique
+          description: An RSA public key fingerprint used to create a new mailbox
   - schema:
-      id: Register Response Success
+      id: Register Response - Success
       properties:
         data:
           nullable: true
-          schema:
-            id: mailbox_fp
-            properties:
-              mailbox:
-                type: string
-                description: The fingerprint of the mailbox created
         error:
-          type: string
+          # type: string
           nullable: true
+
           description: Error message
-        success:
-          type: boolean
-          description: State of successful operation
   - schema:
-      id: Register Response Failure
+      id: Register Response - Failure
       properties:
         error:
           type: string
           description: Error message
-        success:
-          type: boolean
-          description: State of successful operation
+consumes:
+  - application/json
 produces:
   - application/json
 parameters:
-  - in: body
-    name: Register
-    description: Register a mailbox using a fingerprint, fingerprint must be 40 characters and unique.
+  - name: Register
+    in: body
+    description: Create a new mailbox using a fingerprint; fingerprint should be a unique RSA public key fingerprint and 40 characters in length.
     schema:
       $ref: "#/definitions/Register Request"
 responses:
-  200:
+  201:
     description: Mailbox successfully created with given fingerprint
     schema:
-      $ref: "#/definitions/Register Response Success"
+      $ref: "#/definitions/Register Response - Success"
   400:
     description: Unsuccessful creation of mailbox
     schema:
-      $ref: "#/definitions/Register Response Failure"
+      $ref: "#/definitions/Register Response - Failure"
   500:
-    description: Unknown error
+    description: Unsuccessful creation of mailbox due to an unknown error
     schema:
-      $ref: "#/definitions/Register Response Failure"
+      $ref: "#/definitions/Register Response - Failure"

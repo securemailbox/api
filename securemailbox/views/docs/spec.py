@@ -12,5 +12,5 @@ spec_url = "/spec/"
 def spec():
     swag = swagger(app, from_file_keyword='swagger_from_file')
     swag['info']['version'] = __version__
-    swag['info']['title'] = "Secure Mailbox"
+    swag['info']['title'] = "Secure Mailboxes API"
     return jsonify(swag)
