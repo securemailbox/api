@@ -63,7 +63,7 @@ def send():
         db.session.add(message_ob)
         db.session.commit()
 
-        return jsonify({"success": True, data: None}), 201
+        return jsonify({"success": True, "error": None, data: None}), 201
     except DBAPIError:
         return (
             jsonify({"success": False, "error": "message failed to add to messages"}),
