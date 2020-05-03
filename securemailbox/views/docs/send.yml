@@ -1,4 +1,4 @@
-Send a Message
+Send a message to a mailbox
 ---
 tags:
   - API Endpoints
@@ -12,43 +12,53 @@ definitions:
       properties:
         fingerprint:
           type: string
-          description: The fingerprint of the person receiving the message
+          description: The public key fingerprint of the person receiving the message
         sender_fingerprint:
           type: string
-          description: The fingerprint of the person sending the message
+          description: The public key fingerprint of the person sending the message
         message:
           type: string
           description: The message being sent
   - schema:
-      id: Send Response Success
+      id: Send Response - Success
       properties:
         error:
-          type: string
           nullable: true
+          default: null
           description: Error message
         success:
           type: boolean
-          description: State of successful operation
+          deprecated: True
+          default: False
   - schema:
-      id: Send Response Failure
+      id: Send Response - Failure
       properties:
         error:
           type: string
           description: Error message
+        success:
+          type: boolean
+          deprecated: True
+          default: False
+consumes:
+  - application/json
 produces:
   - application/json
 parameters:
   - in: body
-    name: Send
-    description: Send a message to another user using an existing fingerprint and sender fingerprint.
+    description: Send a message to another user's mailbox.
     schema:
       $ref: "#/definitions/Send Request"
 responses:
-  200:
-    description: Message successfully sent
+  201:
+    description: Message was successfully sent
     schema:
-      $ref: "#/definitions/Send Response Success"
+      $ref: "#/definitions/Send Response - Success"
   400:
-    description: Unsuccessful message sending
+    description: Message was not able to be sent
     schema:
-      $ref: "#/definitions/Send Response Failure"
+      $ref: "#/definitions/Send Response - Failure"
+  500:
+    description: Message was not able to be sent due to an unknown error
+    schema:
+      $ref: "#/definitions/Send Response - Failure"
