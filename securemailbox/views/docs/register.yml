@@ -17,7 +17,6 @@ definitions:
         data:
           nullable: true
         error:
-          # type: string
           nullable: true
 
           description: Error message
@@ -32,21 +31,20 @@ consumes:
 produces:
   - application/json
 parameters:
-  - name: Register
-    in: body
+  - in: body
     description: Create a new mailbox using a fingerprint; fingerprint should be a unique RSA public key fingerprint and 40 characters in length.
     schema:
       $ref: "#/definitions/Register Request"
 responses:
   201:
-    description: Mailbox successfully created with given fingerprint
+    description: Mailbox was successfully created with given fingerprint
     schema:
       $ref: "#/definitions/Register Response - Success"
   400:
-    description: Unsuccessful creation of mailbox
+    description: Mailbox was unable to be created
     schema:
       $ref: "#/definitions/Register Response - Failure"
   500:
-    description: Unsuccessful creation of mailbox due to an unknown error
+    description: Mailbox was unable to be created due to an unknown error
     schema:
       $ref: "#/definitions/Register Response - Failure"
