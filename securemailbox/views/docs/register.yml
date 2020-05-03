@@ -18,14 +18,22 @@ definitions:
           nullable: true
         error:
           nullable: true
-
-          description: Error message
+          deprecated: True
+          default: null
+        success:
+          type: boolean
+          deprecated: True
+          default: True
   - schema:
       id: Register Response - Failure
       properties:
         error:
           type: string
           description: Error message
+        success:
+          type: boolean
+          deprecated: True
+          default: False
 consumes:
   - application/json
 produces:

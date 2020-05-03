@@ -24,8 +24,8 @@ definitions:
       properties:
         error:
           nullable: true
+          deprecated: True
           default: null
-          description: Error message
         success:
           type: boolean
           deprecated: True

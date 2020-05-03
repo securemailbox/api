@@ -48,7 +48,8 @@ definitions:
                 description: Number of messages returned
         error:
           nullable: true
-          description: Error message
+          deprecated: True
+          default: null
         success:
           type: boolean
           deprecated: True
