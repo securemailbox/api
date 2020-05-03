@@ -75,7 +75,7 @@ parameters:
       $ref: "#/definitions/Retrieve Request"
 responses:
   200:
-    description: Messages were succesffully retireved from desired mailbox
+    description: Messages were successfully retrieved from desired mailbox
     schema:
       $ref: "#/definitions/Retrieve Response - Success"
   400:
