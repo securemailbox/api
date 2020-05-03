@@ -10,7 +10,7 @@ definitions:
       properties:
         fingerprint:
           type: string
-          description: An RSA public key fingerprint used to create a new mailbox
+          description: The public key fingerprint used to create a new mailbox
   - schema:
       id: Register Response - Success
       properties:

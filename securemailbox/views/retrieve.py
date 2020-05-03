@@ -108,7 +108,8 @@ def retrieve():
                 "message": message.message,
                 "sender_fingerprint": message.sender_fingerprint,
                 "created_at": message.created_at,
-                "updated_at": message.updated_at,
+                # Removed by sgomena on 5/3 b/c it's not currently applicable
+                # "updated_at": message.updated_at,
             }
         )
 
