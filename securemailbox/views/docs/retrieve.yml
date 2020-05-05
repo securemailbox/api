@@ -70,6 +70,7 @@ produces:
   - application/json
 parameters:
   - in: body
+    name: Retrieve
     description: Retrieve messages from a mailbox using a fingerprint; optionally limit results to specific sender by providing a `sender_fingerprint`
     schema:
       $ref: "#/definitions/Retrieve Request"
