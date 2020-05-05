@@ -12,6 +12,7 @@
 !docker-compose.yml
 !nginx/flaskapp.conf
 !.env
+!securemailbox/views/docs/*
 !deploy.sh
 !wsgi.ini
 !wsgi.prod.ini

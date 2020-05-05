@@ -1,0 +1,88 @@
+Retrieve messages from a mailbox
+---
+tags:
+  - API Endpoints
+definitions:
+  - schema:
+      id: Retrieve Request
+      required:
+        - fingerprint
+      properties:
+        fingerprint:
+          type: string
+          description: The public key fingerprint of the mailbox you would like to view messages for
+        sender_fingerprint:
+          type: string
+          description: If specified, only get messages from sender with this fingerprint
+  - schema:
+      id: Retrieve Response - Success
+      properties:
+        data:
+          nullable: true
+          schema:
+            id: Messages
+            properties:
+              messages:
+                type: array
+                description: Messages in the mailbox that match the request criteria
+                items:
+                  schema:
+                    id: Message
+                    properties:
+                      message:
+                        type: string
+                        description: Message content
+                      sender_fingerprint:
+                        type: string
+                        description: Public key fingerprint of the user who sent the message
+                      created_at:
+                        type: string
+                        format: date-time
+                      # Removed by sgomena on 5/3 b/c it's not currently applicable
+                      # updated_at:
+                      #   type: string
+                      #   format: date-time
+              count:
+                type: integer
+                min: 0
+                description: Number of messages returned
+        error:
+          nullable: true
+          deprecated: True
+          default: null
+        success:
+          type: boolean
+          deprecated: True
+          default: False
+  - schema:
+      id: Retrieve Response - Failure
+      properties:
+        error:
+          type: string
+          description: Error message
+        success:
+          type: boolean
+          deprecated: True
+          default: False
+consumes:
+  - application/json
+produces:
+  - application/json
+parameters:
+  - in: body
+    description: Retrieve messages from a mailbox using a fingerprint; optionally limit results to specific sender by providing a `sender_fingerprint`
+    schema:
+      $ref: "#/definitions/Retrieve Request"
+responses:
+  200:
+    description: Messages were successfully retrieved from desired mailbox
+    schema:
+      $ref: "#/definitions/Retrieve Response - Success"
+  400:
+    description: Messages were unable to be fetched
+    schema:
+      $ref: "#/definitions/Retrieve Response - Failure"
+  500:
+    description: Messages were unable to be fetched due to an unknown error
+    schema:
+      $ref: "#/definitions/Retrieve Response - Failure"

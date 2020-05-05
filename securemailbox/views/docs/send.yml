@@ -1,0 +1,64 @@
+Send a message to a mailbox
+---
+tags:
+  - API Endpoints
+definitions:
+  - schema:
+      id: Send Request
+      required:
+        - fingerprint
+        - sender_fingerprint
+        - message
+      properties:
+        fingerprint:
+          type: string
+          description: The public key fingerprint of the person receiving the message
+        sender_fingerprint:
+          type: string
+          description: The public key fingerprint of the person sending the message
+        message:
+          type: string
+          description: The message being sent
+  - schema:
+      id: Send Response - Success
+      properties:
+        error:
+          nullable: true
+          deprecated: True
+          default: null
+        success:
+          type: boolean
+          deprecated: True
+          default: False
+  - schema:
+      id: Send Response - Failure
+      properties:
+        error:
+          type: string
+          description: Error message
+        success:
+          type: boolean
+          deprecated: True
+          default: False
+consumes:
+  - application/json
+produces:
+  - application/json
+parameters:
+  - in: body
+    description: Send a message to another user's mailbox.
+    schema:
+      $ref: "#/definitions/Send Request"
+responses:
+  201:
+    description: Message was successfully sent
+    schema:
+      $ref: "#/definitions/Send Response - Success"
+  400:
+    description: Message was not able to be sent
+    schema:
+      $ref: "#/definitions/Send Response - Failure"
+  500:
+    description: Message was not able to be sent due to an unknown error
+    schema:
+      $ref: "#/definitions/Send Response - Failure"

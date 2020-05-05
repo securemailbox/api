@@ -1,8 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_swagger import swagger
+from flask_swagger_ui import get_swaggerui_blueprint
 
-__version__ = "0.8.0"
+__version__ = "0.8.1"
 
 app = Flask(__name__)
 
@@ -21,11 +23,17 @@ migrate = Migrate(app, db)
 from securemailbox.views.register import register_blueprint
 from securemailbox.views.send import send_blueprint
 from securemailbox.views.retrieve import retrieve_blueprint
+from securemailbox.views.docs.spec import spec_blueprint, spec_url
 
 app.register_blueprint(register_blueprint)
 app.register_blueprint(send_blueprint)
 app.register_blueprint(retrieve_blueprint)
+app.register_blueprint(spec_blueprint)
 
+SWAGGER_URL = "/docs"
+app.register_blueprint(
+    get_swaggerui_blueprint(SWAGGER_URL, spec_url), url_prefix=SWAGGER_URL
+)
 
 # Create database tables
 # Note: Model classes must be imported prior to this running

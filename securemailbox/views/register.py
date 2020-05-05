@@ -12,6 +12,11 @@ register_blueprint = Blueprint("register", __name__)
 
 @register_blueprint.route("/register/", methods=["POST"])
 def register():
+    """
+    Register a Mailbox
+    
+    swagger_from_file: securemailbox/views/docs/register.yml
+    """
     # Ensure a valid request is received
     if not request.is_json:
         return jsonify({"success": False, "error": "Request must be valid json"}), 400
@@ -24,9 +29,18 @@ def register():
                 jsonify({"success": False, "error": f"field '{field}' is required."}),
                 400,
             )
-        if len(field_to_check) != FINGERPRINT_LENGTH:
+        # Error if fingerprint is not a valid length
+        if (
+            field_to_check == "fingerprint"
+            and len(field_to_check) != FINGERPRINT_LENGTH
+        ):
             return (
-                jsonify({"success": False, "error": f"field '{field}' is not a valid length."}),
+                jsonify(
+                    {
+                        "success": False,
+                        "error": f"field '{field}' is not a valid length.",
+                    }
+                ),
                 400,
             )
     try:
@@ -35,9 +49,10 @@ def register():
         db.session.add(new_mailbox)
         db.session.commit()
 
+        # If successful creation return 201 CREATED
         return (
-            jsonify({"success": True, "error": None, "data": {"mailbox": new_mailbox.fingerprint}}),
-            200,
+            jsonify({"success": True, "error": None, "data": None}),
+            201,
         )
     except IntegrityError:
         return (
