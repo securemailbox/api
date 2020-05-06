@@ -35,7 +35,8 @@ docker-compose --project-name ${PROJECT} build --no-cache --parallel flaskapp
 docker save $(docker image ls --format '{{ .Repository }}' | grep -oE "^${PROJECT}_\\w+\$") -o ${PROJECT}_deploy.tar
 
 # Copy project files (namely: `docker-compose.yml`)
-${SCP} docker-compose.yml ${DEPLOY_USER}@${DEPLOY_TARGET}:/
+${SCP} docker-compose.yml ${DEPLOY_USER}@${DEPLOY_TARGET}:/etc/securemailboxes/
+${SCP} nginx/flaskapp.conf ${DEPLOY_USER}@${DEPLOY_TARGET}:/etc/securemailboxes/nginx/
 
 # Copy image to remote host
 ${SCP} ${PROJECT}_deploy.tar ${DEPLOY_USER}@${DEPLOY_TARGET}:/tmp/
@@ -49,7 +50,7 @@ ${SSH} ${DEPLOY_USER}@${DEPLOY_TARGET} "export POSTGRES_USER=${POSTGRES_USER} &&
                                         export POSTGRES_HOST=${POSTGRES_HOST} && \
                                         export POSTGRES_PORT=${POSTGRES_PORT} && \
                                         export POSTGRES_DB=${POSTGRES_DB} && \
-                                        docker-compose -p ${PROJECT} -f /docker-compose.yml up --no-deps -d flaskapp"
+                                        docker-compose -p ${PROJECT} -f /etc/securemailboxes/docker-compose.yml up --no-deps -d flaskapp"
 
 # make sure container has time to start up
 sleep 2

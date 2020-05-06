@@ -27,8 +27,12 @@ services:
     image: "nginx:latest"
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx:/etc/nginx/conf.d
+      - ./dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+      - ./letsencrypt/etc/letsencrypt/live/securemailbox.duckdns.org/fullchain.pem:/etc/letsencrypt/live/securemailbox.duckdns.org/fullchain.pem
+      - ./letsencrypt/etc/letsencrypt/live/securemailbox.duckdns.org/privkey.pem:/etc/letsencrypt/live/securemailbox.duckdns.org/privkey.pem
     networks:
       - web_nw
     depends_on: 
