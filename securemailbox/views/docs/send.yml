@@ -46,6 +46,7 @@ produces:
   - application/json
 parameters:
   - in: body
+    name: Send
     description: Send a message to another user's mailbox.
     schema:
       $ref: "#/definitions/Send Request"
