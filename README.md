@@ -102,7 +102,24 @@ nginx is configured to use default port 80.
 
 ### Testing
 
-TBD
+Install pytest for our premade tests.
+If you installed everything in the pipfile pytest should already be installed.
+
+```bash
+pipenv install pytest --dev
+```
+Make sure the DATABASE_URL is correct, and it can run normally in flask.
+This is the testing url:
+
+```bash
+export DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/test
+```
+Run with:
+
+```bash
+pipenv run pytest
+```
+This will run created tests with filenames that start with 'test'.
 
 ### Formatting
 
