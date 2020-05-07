@@ -6,6 +6,7 @@
 !LICENSE
 !Pipfile*
 !Dockerfile
+!Dockerfile.prod
 !.dockerignore
 !pyproject.toml
 !docker-compose.yml
@@ -13,6 +14,8 @@
 !.env
 !securemailbox/views/docs/*
 !deploy.sh
+!wsgi.ini
+!wsgi.prod.ini
 
 # Python files
 !*.py
