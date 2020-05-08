@@ -10,7 +10,10 @@
 !.dockerignore
 !pyproject.toml
 !docker-compose.yml
+!docker-compose.production.yml
+!nginx/
 !nginx/flaskapp.conf
+!nginx/flaskapp_prod.conf
 !.env
 !securemailbox/views/docs/*
 !deploy.sh
