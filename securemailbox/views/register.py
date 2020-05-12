@@ -23,16 +23,16 @@ def register():
 
     # Ensure all fields in request are not NULL
     for field in ["fingerprint"]:
-        field_to_check = request.json.get(field, None)
-        if field_to_check is None:
+        field_value = request.json.get(field, None)
+        if field_value is None:
             return (
                 jsonify({"success": False, "error": f"field '{field}' is required."}),
                 400,
             )
         # Error if fingerprint is not a valid length
         if (
-            field_to_check == "fingerprint"
-            and len(field_to_check) != FINGERPRINT_LENGTH
+            field == "fingerprint"
+            and len(field_value) != FINGERPRINT_LENGTH
         ):
             return (
                 jsonify(
