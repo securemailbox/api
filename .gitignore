@@ -20,6 +20,12 @@
 !wsgi.ini
 !wsgi.prod.ini
 
+# letsencrypt setup
+!letsencrypt/
+!letsencrypt/letsencrypt-site/
+!letsencrypt/letsencrypt-site/docker-compose.yml
+!letsencrypt/letsencrypt-site/nginx.conf
+
 # Python files
 !*.py
 !securemailbox/
