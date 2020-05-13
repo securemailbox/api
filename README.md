@@ -103,7 +103,6 @@ They specify the
     * port
 * name of the compose cluster
 * domain name for setting up SSL/TLS.
-* an email for setting up with certbot
 
 Nginx is configured to use default port 80.
 It will use port 443 for TLS if you are running the production version.
@@ -123,14 +122,23 @@ To use the TLS version, you must first set up certificates from [Let's Encrypt](
 
 To get a certificate from Let's Encrypt we use the certbot docker container.
 
-First change DOMAIN_NAME and EMAIL in the ```.env``` file to your domain and email.
+First set DOMAIN\_NAME and YOUR_EMAIL in ```.env``` appropriately.
+
+Replace all instances of 'securemailbox.duckdns.org' with your domain in
+
+* ```letsencrypt/nginx.conf```
+* ```nginx/flask_app.conf```
+
+
 
 Next bring up a temporary site for the certbot's challenge to prove you have control over the server at your domain.
 
 ```bash
-cd letsencrypt/letsencrypt-site
+cd letsencrypt
 docker-compose up -d
 ```
+
+Bring up the domain in a browser to make sure it is up.
 
 Run the certbot container
 
@@ -142,7 +150,7 @@ docker run -it --rm \
 -v ./letsencrypt/var/log/letsencrypt:/var/log/letsencrypt \
 certbot/certbot \
 certonly --webroot \
---email ${EMAIL} --agree-tos --no-eff-email \
+--email ${YOUR_EMAIL} --agree-tos --no-eff-email \
 --webroot-path=/data/letsencrypt \
 -d ${DOMAIN_NAME} -d www.${DOMAIN_NAME}
 ```
@@ -157,6 +165,7 @@ docker-compose down
 Next create a Diffie-Hellman parameters file. This will take a while.
 
 ```bash
+cd ..
 mkdir dh-param
 openssl dhparam -out dh-param/dhparam-2048.pem 2048
 ```
