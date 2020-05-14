@@ -6,8 +6,8 @@ from flask import Blueprint, jsonify, request, json
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 
-from /home/tom/api/securemailbox/models.py import Mailbox
-from /home/tom/api/securemailbox/models.py import Message
+from securemailbox.models import Mailbox
+from securemailbox.models import Message
 
 from securemailbox import db
 
@@ -16,38 +16,39 @@ test_fingerprint = "FAC10F0C3D1D49F8F9A82CB553E79F7C92E1CF33"
 
 sender_test = "me"
 
-message = "test"
+messaget = "test"
 
-def test_send_existing(client):
-    rv = client.post("/send/", json={"fingerprint": test_fingerprint, "sender_fingerprint": sender_test, "message": message})
+def test_send_message(client):
+    rv = client.post("/send/", json={"fingerprint": test_fingerprint, "sender_fingerprint": sender_test, "message": messaget})
     assert rv.get_json() == {
         "success": False,
         "error": "no message or fingerprint",
     }
-    rv = client.post("/send/", json={"fingerprint": test_fingerprint, "sender_fingerprint": sender_test, "message": message})
+    rv = client.post("/send/", json={"fingerprint": test_fingerprint, "sender_fingerprint": sender_test, "message": messaget})
     #above success match with below
-    try:
-        Id=db.session.query(Mailbox.id).filter_by(fingerprint=test_fingerprint).first()
-        r_message=Message.query.filter_by(mailbox_id=mailbox_id and message=message).first()
-    except IntegrityError:
-        return (
-            jsonify(
-                {
-                    "success":False,
-                    "error":"un retrievable message",
-                }
-            ),
-            400,
-        )
-    return (
-        jsonify(
-            {
-                "success":True,
-                "error":None,
-	    }
-        ),
-        400,
-    )
+    #try:
+    Id=db.session.query(Mailbox.id).filter_by(fingerprint=test_fingerprint).first()
+    r_message=Message.query.filter_by(mailbox_id=Id).filter_by(message=messaget).first()
+    assert r_message.message==messaget
+   # except IntegrityError:
+       # return (
+           # jsonify(
+           #     {
+          #          "success":False,
+         #           "error":"un retrievable message",
+        #        }
+       #     ),
+      #      400,
+     #   )
+    #return (
+    #    jsonify(
+   #         {
+  #              "success":True,
+ #               "error":None,
+#	    }
+  #      ),
+ #       400,
+#    )
 
     
 
