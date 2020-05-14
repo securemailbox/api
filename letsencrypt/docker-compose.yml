@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+
+  letsencrypt-certbot-challenge:
+    container_name: 'letsencrypt-certbot-challenge'
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./letsencrypt-site:/usr/share/nginx/html
+    networks:
+      - certbot
+
+networks:
+  certbot:
+    driver: bridge
