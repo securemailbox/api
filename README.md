@@ -107,14 +107,6 @@ They specify the
 Nginx is configured to use default port 80.
 It will use port 443 for TLS if you are running the production version.
 
-##### Initialize Database
-
-Before the first run of the cluster, the database needs to be initialized. The easiest way is to startup the db container by itself.
-
-```bash
-docker-compose up db -d
-```
-
 
 ##### Set up SSL/TLS
 
@@ -122,13 +114,19 @@ To use the TLS version, you must first set up certificates from [Let's Encrypt](
 
 To get a certificate from Let's Encrypt we use the certbot docker container.
 
-First set DOMAIN\_NAME and YOUR_EMAIL in ```.env``` appropriately.
+First set ```DOMAIN_NAME``` in ```.env``` appropriately.
 
 Replace all instances of 'securemailbox.duckdns.org' with your domain in
 
 * ```letsencrypt/nginx.conf```
-* ```nginx/flask_app.conf```
+* ```nginx/flaskapp_prod.conf```
 
+You can use ```sed``` to do this.
+
+```bash
+sed -i 's/securemailbox.duckdns.org/YOURDOMAINHERE/g' letsencrypt/nginx.conf
+sed -i 's/securemailbox.duckdns.org/YOURDOMAINHERE/g' nginx/flaskapp_prod.conf
+```
 
 
 Next bring up a temporary site for the certbot's challenge to prove you have control over the server at your domain.
@@ -140,14 +138,14 @@ docker-compose up -d
 
 Bring up the domain in a browser to make sure it is up.
 
-Run the certbot container
+Run the certbot container from the letsencrypt directory. Make sure the environment variables ```YOUR_EMAIL``` and ```DOMAIN_NAME``` are set or edit this command with the correct values.
 
 ```bash
 docker run -it --rm \
--v ./letsencrypt/etc/letsencrypt:/etc/letsencrypt \
--v ./letsencrypt/var/lib/letsencrypt:/var/lib/letsencrypt \
--v ./letsencrypt/data/letsencrypt:/data/letsencrypt \
--v ./letsencrypt/var/log/letsencrypt:/var/log/letsencrypt \
+-v $(pwd)/etc/letsencrypt:/etc/letsencrypt \
+-v $(pwd)/var/lib/letsencrypt:/var/lib/letsencrypt \
+-v $(pwd)/letsencrypt-site:/data/letsencrypt \
+-v $(pwd)/var/log/letsencrypt:/var/log/letsencrypt \
 certbot/certbot \
 certonly --webroot \
 --email ${YOUR_EMAIL} --agree-tos --no-eff-email \
@@ -170,15 +168,22 @@ mkdir dh-param
 openssl dhparam -out dh-param/dhparam-2048.pem 2048
 ```
 
+##### Initialize Database
+
+Before the first run of the cluster, the database needs to be initialized. The easiest way is to startup the db container by itself.
+
+```bash
+docker-compose up -d db
+```
 
 ##### Start the cluster
 
 ```bash
 # Build and run the docker-compose cluster
 # without TLS
-docker-compose up --build
+docker-compose up -d --build
 # With TLS
-docker-compose -f docker-compose.production.yml up --build
+docker-compose -f docker-compose.production.yml up -d --build
 ```
 
 
