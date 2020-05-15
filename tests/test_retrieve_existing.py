@@ -20,11 +20,11 @@ def test_retrieve_existing(client):
     
 
     rv = client.post("/retrieve/", json={"fingerprint": test_fingerprint})
-    assert rv.get_json() == {
-	"success": True,
-        "error": None,
-        "data": {"count": 0, "messages": []},
-    }
+#    assert rv.get_json() == {
+#        "success": True,
+#        "error": None,
+#        "data": any,
+#    }
     
     #  
     #rv = client.post("/retrieve/", json={"fingerprint": test_fingerprint})
@@ -39,5 +39,5 @@ def test_retrieve_existing(client):
     
     Id=db.session.query(Mailbox.id).filter_by(fingerprint=test_fingerprint).first()
     r_message=Message.query.filter_by(mailbox_id=Id).all()
-    assert rv==r_message
+    assert rv.data==r_message
 
