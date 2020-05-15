@@ -27,7 +27,7 @@ def send():
             ),
             400,
 	)
-    
+
     # get fingerprint
     fingerprint = request.json.get("fingerprint", None)
     if fingerprint is None:
