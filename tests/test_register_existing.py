@@ -12,6 +12,7 @@ def test_register_existing(client):
         "error": None,
         "data": {"mailbox": test_fingerprint},
     }
+    #lower works for retrieve because it always fails second time.
     rv = client.post("/register/", json={"fingerprint": test_fingerprint})
     assert rv.get_json() == {
         "success": False,

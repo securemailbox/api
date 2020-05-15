@@ -16,6 +16,15 @@ send_blueprint = Blueprint("send", __name__)
 def send():
 
     #get fingerprint
+    if not request.is_json:
+        return (
+            jsonify(
+                {"success": False, "error": "Request must be valid json", "data": None}
+            ),
+            400,
+	)
+
+    
     fingerprint = request.json.get("fingerprint", None)
     if fingerprint is None:
         return jsonify({"error": "no fingerprint"}), 400

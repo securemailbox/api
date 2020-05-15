@@ -23,12 +23,16 @@ def test_retrieve_existing(client):
     assert rv.get_json() == {
 	"success": True,
         "error": None,
+        "data": {"count": 0, "messages": []},
     }
-    rv = client.post("/retrieve/", json={"fingerprint": test_fingerprint})
-    assert rv.get_json() == {
-        "success": False,
-        "error": f"mailbox with fingerprint '{test_fingerprint}' dosen't exists",
-    }
+    
+    #  
+    #rv = client.post("/retrieve/", json={"fingerprint": test_fingerprint})
+    #assert rv.get_json() == {
+    #    "success": False,
+    #    "error": f"mailbox with fingerprint '{test_fingerprint}' dosen't exists",
+    #    "data": None,
+    #}
 
 #match above with data from below query?
 
