@@ -1,0 +1,59 @@
+Create a new mailbox
+---
+tags:
+  - API Endpoints
+definitions:
+  - schema:
+      id: Register Request
+      required:
+        - fingerprint
+      properties:
+        fingerprint:
+          type: string
+          description: The public key fingerprint used to create a new mailbox
+  - schema:
+      id: Register Response - Success
+      properties:
+        data:
+          nullable: true
+        error:
+          nullable: true
+          deprecated: True
+          default: null
+        success:
+          type: boolean
+          deprecated: True
+          default: True
+  - schema:
+      id: Register Response - Failure
+      properties:
+        error:
+          type: string
+          description: Error message
+        success:
+          type: boolean
+          deprecated: True
+          default: False
+consumes:
+  - application/json
+produces:
+  - application/json
+parameters:
+  - in: body
+    name: Register
+    description: Create a new mailbox using a fingerprint; fingerprint should be a unique RSA public key fingerprint and 40 characters in length.
+    schema:
+      $ref: "#/definitions/Register Request"
+responses:
+  201:
+    description: Mailbox was successfully created with given fingerprint
+    schema:
+      $ref: "#/definitions/Register Response - Success"
+  400:
+    description: Mailbox was unable to be created
+    schema:
+      $ref: "#/definitions/Register Response - Failure"
+  500:
+    description: Mailbox was unable to be created due to an unknown error
+    schema:
+      $ref: "#/definitions/Register Response - Failure"

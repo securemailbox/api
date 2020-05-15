@@ -14,6 +14,12 @@ retrieve_blueprint = Blueprint("retrieve", __name__)
 @retrieve_blueprint.route("/retrieve/", methods=["POST"])
 def retrieve():
 
+    """
+    Retrieve Message Information
+
+    swagger_from_file: securemailbox/views/docs/retrieve.yml
+    """
+
     # Check for valid json request
     if not request.is_json:
         return (
@@ -45,7 +51,9 @@ def retrieve():
 
     # search for fingerprint in mailbox table
     try:
-        mailbox_id = db.session.query(Mailbox.id).filter_by(fingerprint=req_fingerprint).first()
+        mailbox_id = (
+            db.session.query(Mailbox.id).filter_by(fingerprint=req_fingerprint).first()
+        )
     except NoResultFound:
         return (
             jsonify(
@@ -103,7 +111,8 @@ def retrieve():
                 "message": message.message,
                 "sender_fingerprint": message.sender_fingerprint,
                 "created_at": message.created_at,
-                "updated_at": message.updated_at,
+                # Removed by sgomena on 5/3 b/c it's not currently applicable
+                # "updated_at": message.updated_at,
             }
         )
 

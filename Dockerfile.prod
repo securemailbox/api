@@ -18,5 +18,5 @@ COPY . .
 ENV FLASK_ENV "production"
 ENV FLASK_APP "securemailbox"
 
-# run uwsgi with setting found in wsgi.ini to serve securemailbox flask app
-CMD [ "pipenv", "run", "uwsgi", "wsgi.ini" ]
+# run uwsgi with setting found in wsgi.prod.ini to serve securemailbox flask app
+CMD [ "pipenv", "run", "uwsgi", "wsgi.prod.ini" ]

@@ -1,4 +1,3 @@
-
 from flask import Blueprint, jsonify, request, json
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import DBAPIError
@@ -14,8 +13,13 @@ send_blueprint = Blueprint("send", __name__)
 
 @send_blueprint.route("/send/", methods=["POST"])
 def send():
+    """
+    Send a Message
+    
+    swagger_from_file: securemailbox/views/docs/send.yml
+    """
 
-    #get fingerprint
+        #get fingerprint
     if not request.is_json:
         return (
             jsonify(
@@ -23,47 +27,59 @@ def send():
             ),
             400,
 	)
-
     
+    # get fingerprint
     fingerprint = request.json.get("fingerprint", None)
     if fingerprint is None:
-        return jsonify({"error": "no fingerprint"}), 400
+        return jsonify({"success": False, "error": "no fingerprint"}), 400
     sender_fingerprint = request.json.get("sender_fingerprint", None)
     if sender_fingerprint is None:
-        return jsonify({"error": "no send fingerprint"}), 400
+        return jsonify({"success": False, "error": "no send fingerprint"}), 400
     message_t = request.json.get("message", None)
     if message_t is None:
-        return jsonify({"error": "no message"}), 400
-    
-    #update messages associated
+        return jsonify({"success": False, "error": "no message"}), 400
+
+    # update messages associated
     try:
-        mailbox_id = db.session.query(Mailbox.id).filter_by(fingerprint=fingerprint).first()
+        mailbox_id = (
+            db.session.query(Mailbox.id).filter_by(fingerprint=fingerprint).first()
+        )
     except NoResultFound:
         mailbox_id = None
 
     try:
-        mailbox_send_id = db.session.query(Mailbox.id).filter_by(fingerprint=sender_fingerprint).first()
+        mailbox_send_id = (
+            db.session.query(Mailbox.id)
+            .filter_by(fingerprint=sender_fingerprint)
+            .first()
+        )
     except NoResultFound:
         mailbox_send_id = None
-    #validity
+    # validity
     if mailbox_id is None:
-        return jsonify({"error": "no recipient fingerprint match"}), 400
+        return (
+            jsonify({"success": False, "error": "no recipient fingerprint match"}),
+            400,
+        )
     if mailbox_send_id is None:
-        return jsonify({"error": "no sender fingerprint match"}), 400
+        return jsonify({"success": False, "error": "no sender fingerprint match"}), 400
 
-    
-
-    #dont need this
-    #mail = Message.query.filter_by(mailbox_id=mailbox_id)
-    
     try:
-        message_ob = Message(message=message_t,sender_fingerprint=sender_fingerprint, mailbox_id=mailbox_id)
+        message_ob = Message(
+            message=message_t,
+            sender_fingerprint=sender_fingerprint,
+            mailbox_id=mailbox_id,
+        )
         db.session.add(message_ob)
         db.session.commit()
-    except DBAPIError:
-        return jsonify({"error": "message failed to add to messages"}), 400
-    
-    return jsonify({"success": True, "error": None})
 
-#messages in a mailbox instance is where message is added
-#to what I have now implies message not within mailbox needs modification
+        return jsonify({"success": True, "error": None, data: None}), 201
+    except DBAPIError:
+        return (
+            jsonify({"success": False, "error": "message failed to add to messages"}),
+            400,
+        )
+
+    # Catch all; there was an unknown error
+    except BaseException as e:
+        return jsonify({"success": False, "error": repr(e)}), 500
