@@ -1,12 +1,17 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 from flask_swagger import swagger
 from flask_swagger_ui import get_swaggerui_blueprint
 
 __version__ = "0.8.1"
 
 app = Flask(__name__)
+
+# Enable cors
+# Docs: https://flask-cors.readthedocs.io/en/latest/
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Load default config from ../default_settings.py
 # Docs: https://flask.palletsprojects.com/en/1.1.x/config/

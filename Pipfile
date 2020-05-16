@@ -14,6 +14,7 @@ psycopg2 = "*"
 uwsgi = "*"
 flask-swagger = "*"
 flask-swagger-ui = "*"
+flask-cors = "*"
 
 [requires]
 python_version = "3.8"
