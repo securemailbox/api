@@ -19,6 +19,10 @@ sender_test = "FAC10F0C3D1D49F8F9A82CB553E79F7C92E1CF33"
 messaget = "test"
 
 def test_send_message(client):
+    new_mailbox = Mailbox(fingerprint=test_fingerprint)
+    db.session.add(new_mailbox)
+    db.session.commit()
+
     rv = client.post("/send/", json={"fingerprint": test_fingerprint, "sender_fingerprint": sender_test, "message": messaget})
     assert rv.get_json() == {
         "success": True,

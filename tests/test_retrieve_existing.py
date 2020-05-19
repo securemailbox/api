@@ -11,9 +11,13 @@ test_fingerprint = "FAC10F0C3D1D49F8F9A82CB553E79F7C92E1CF33"
 
 
 def test_retrieve_existing(client):
+    new_mailbox = Mailbox(fingerprint=test_fingerprint)
+    db.session.add(new_mailbox)
+    db.session.commit()
+    
     rv = client.post("/retrieve/", json={"fingerprint": test_fingerprint})
     assert rv.get_json() == {
-	    "success": True,
+        "success": True,
         "error": None,
         "data": {"count": 0, "messages": []},
     }
@@ -29,7 +33,7 @@ def test_retrieve_existing(client):
 #match above with data from below query?
 
     
-    Id=db.session.query(Mailbox.id).filter_by(fingerprint=test_fingerprint).first()
-    r_message=Message.query.filter_by(mailbox_id=Id).all()
-    assert rv.data==r_message
+    #Id=db.session.query(Mailbox.id).filter_by(fingerprint=test_fingerprint).first()
+    #r_message=Message.query.filter_by(mailbox_id=Id).all()
+    assert rv.data== b'{"data":{"count":0,"messages":[]},"error":null,"success":true}\n'
 
