@@ -23,7 +23,7 @@ def send():
     if not request.is_json:
         return (
             jsonify(
-                {"success": False, "error": "Request must be valid json", "data": None}
+                {"success": False, "error": "Request must be valid json",}
             ),
             400,
 	)

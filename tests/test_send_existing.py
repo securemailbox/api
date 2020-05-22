@@ -2,10 +2,6 @@ import pytest
 
 import securemailbox
 
-from flask import Blueprint, jsonify, request, json
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm.exc import NoResultFound
-
 from securemailbox import db
 from securemailbox.models import Mailbox, Message
 
@@ -27,9 +23,4 @@ def test_send_existing(client):
         "error": None,
     }
     
-    #below always causes failure, 
-    #rv = client.post("/send/", json={"fingerprint": test_fingerprint, "sender_fingerprint": sender_test, "message": message})
-    #assert rv.get_json() == {
-    #    "success": False,
-    #    "error": "there is no sender and/or a reciever fingerprint and/or message",
-    #}
+    

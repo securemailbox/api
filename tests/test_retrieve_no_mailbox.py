@@ -1,11 +1,6 @@
 import pytest
 
-from flask import Blueprint, jsonify, request, json
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm.exc import NoResultFound
-
-from securemailbox import db
-from securemailbox.models import Mailbox, Message
+import securemailbox
 
 test_fingerprint = "FAC10F0C3D1D49F8F9A82CB553E79F7C92E1CF33"
 
