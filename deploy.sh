@@ -22,6 +22,9 @@ elif [[ -z "${DEPLOY_TARGET}" ]]; then
 elif [[ -z "${DEPLOY_USER}" ]]; then
   echo "DEPLOY_USER not set"
   exit 1
+elif [[ -z "${DOMAIN_NAME}" ]]; then
+  echo "DOMAIN_NAME not set"
+  exit 1
 fi
 
 SSH="sshpass -e ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
@@ -50,6 +53,7 @@ ${SSH} ${DEPLOY_USER}@${DEPLOY_TARGET} "export POSTGRES_USER=${POSTGRES_USER} &&
                                         export POSTGRES_HOST=${POSTGRES_HOST} && \
                                         export POSTGRES_PORT=${POSTGRES_PORT} && \
                                         export POSTGRES_DB=${POSTGRES_DB} && \
+                                        export DOMAIN_NAME=${DOMAIN_NAME} && \
                                         docker-compose -p ${PROJECT} -f /etc/securemailboxes/docker-compose.production.yml up --no-deps -d flaskapp"
 
 # make sure container has time to start up
