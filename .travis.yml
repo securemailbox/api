@@ -1,0 +1,38 @@
+language: python
+python:
+  - "3.8"
+services:
+  - docker
+  - postgresql
+addons:
+  apt:
+    packages:
+      - sshpass
+env:
+  - DATABASE_URL="postgres://postgres:postgres@127.0.0.1:5432/securemailbox" FLASK_ENV=testing
+install:
+  - pip install --upgrade pip setuptools pipenv
+  - pipenv install
+before_script:
+  - psql -c 'create database securemailbox;' -U postgres
+script:
+  - pipenv run pytest
+  - docker build -t securemailbox:latest .
+before_deploy:
+  - docker save securemailbox:latest > securemailbox.tar
+deploy:
+  # deploy to production
+  - provider: script
+    script: bash deploy.sh
+    skip_cleanup: true
+    on:
+      repo: securemailbox/api
+      branch: master
+  - provider: releases
+    skip_cleanup: true
+    on:
+      repo: securemailbox/api
+      branch: master
+    api_key:
+      secure: n97IcmHmgxJxoUx6zs+iyUFuRbMf5qEu4xTLx6Lh6EpRILA0A83qLH3S5jdRjeU7OFBowkI69zJBi/4aH1jUEdI2jxrOrus+qPssKdtHZScS5HdNc5+lt3Qr/TpHPwbDvu2akgZx2olwVO/ku7bWJeK0ftpsT44oYQ6prfg/lflls3lkKl6AH71VbAugyveMoGi6GZz3n7HdgX23cjaDpzb+7ZVFqutiP5SHCfQt7lH4qF0erzwHWg9HomiG/LlxGrhNr1jwn5F6ez0UET654IeE6lzoIXs7odfDvc8+jkj8mq94r8xc7DPNveJEsM0dNWKhEfoU0lW7m1oD9sbZTi34cRxvNlRNNmC2OHyW4CWnxrlZuNK+kxsh1gk43XubmjH1mZIan8AZDShtoggEM9/f7GJsiISakqheyPIREokWZKdn78Gucr5krrSfd9GQGtsy1nyhkz42SgUSwsSJjOOVjF4LJlF2F3DleuRRyd4e29gZsRU3TAv8ZTseX/tzXgl1PM+89nwfUb75CKwImOKT8V5K0ojoNxH3xbgnvt23KU6ILF2mVNwvFx55QQ9xQ7cUCNDxpw68aJ/Sl3vl2jy4+PPU3CeCkLZz1zn2Q0OZk0xadrBNhNDuuVNYYf2K4eAio4MXsD+6BZQY9/I8j+UGuUA7uWJacpOndSzzrz0=
+    file: securemailbox.tar

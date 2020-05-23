@@ -1,0 +1,37 @@
+# Ignore everything
+*
+
+# Except for ...
+!README.md
+!LICENSE
+!Pipfile*
+!Dockerfile
+!Dockerfile.prod
+!.dockerignore
+!pyproject.toml
+!docker-compose.yml
+!docker-compose.production.yml
+!nginx/
+!nginx/flaskapp.conf
+!nginx/flaskapp_prod.conf
+!.env
+!securemailbox/views/docs/*
+!deploy.sh
+!wsgi.ini
+!wsgi.prod.ini
+
+# letsencrypt setup
+!letsencrypt/
+!letsencrypt/letsencrypt-site/
+!letsencrypt/letsencrypt-site/docker-compose.yml
+!letsencrypt/letsencrypt-site/nginx.conf
+
+# Python files
+!*.py
+!securemailbox/
+!securemailbox/*.py
+!securemailbox/**/
+!securemailbox/**/*.py
+
+# And of course
+!.gitignore
