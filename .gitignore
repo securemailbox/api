@@ -9,6 +9,7 @@
 !Dockerfile.prod
 !.dockerignore
 !pyproject.toml
+!poetry.lock
 !docker-compose.yml
 !docker-compose.production.yml
 !nginx/

@@ -8,3 +8,28 @@ exclude = '''
     | \.venv
 )
 '''
+
+[tool.poetry]
+name = "api"
+version = "0.8.0"
+description = ""
+authors = ["samgomena <samgomena@protonmail.com>"]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+flask = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
+psycopg2 = "*"
+uwsgi = "*"
+flask-swagger = "*"
+flask-swagger-ui = "*"
+flask-cors = "*"
+
+[tool.poetry.dev-dependencies]
+pytest = "*"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
