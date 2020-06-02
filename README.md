@@ -7,8 +7,7 @@ The Secure Mailboxes API
 ### Requirements
 
 - [python 3](https://www.python.org/downloads/)
-- [pipenv](https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv)
-- [docker](https://docs.docker.com/)
+- [poetry](https://python-poetry.org/)
 
 ### Getting Started
 
@@ -29,13 +28,14 @@ pyenv global 3.8.1
 python --version # Python 3.8.1
 ```
 
-Project dependencies can be installed with `poetry`, `pipenv` or `pip`.
+Project dependencies can be installed with either `poetry`, `pipenv` or `pip`.
+We recommend using poetry.
 
 ```bash
 # Upgrade pip and setuptools to ensure we can build libraries against 3.8
 python -m pip install --upgrade pip setuptools
 
-# Install pipenv and project dependencies
+# Install poetry and project dependencies
 python -m pip install poetry && poetry install
 ```
 
@@ -77,7 +77,7 @@ export DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/securemailbox
 export FLASK_APP=securemailbox FLASK_ENV=development
 
 # Set host to 0.0.0.0 so it can be accessed on the network
-pipenv run flask run --host 0.0.0.0 --port 8080
+poetry run flask run --host 0.0.0.0 --port 8080
 ```
 
 #### Building with Docker
@@ -198,7 +198,7 @@ Install pytest for our premade tests.
 If you installed everything in the pipfile pytest should already be installed.
 
 ```bash
-pipenv install pytest --dev
+poetry add pytest --dev
 ```
 
 Make sure the DATABASE_URL is correct, and it can run normally in flask.
@@ -211,7 +211,7 @@ export DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/test
 Run with:
 
 ```bash
-pipenv run pytest
+poetry run pytest
 ```
 
 This will run created tests with filenames that start with 'test'.
@@ -224,8 +224,8 @@ To run black on the project:
 
 ```bash
 # To check which files would be updated
-black --check . securemailbox
+black --check ./**/*.py
 
 # To run black on the whole repo
-black . securemailbox
+black ./**/*.py
 ```
