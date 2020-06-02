@@ -10,14 +10,13 @@ def test_retrieve_existing(client):
     new_mailbox = Mailbox(fingerprint=test_fingerprint)
     db.session.add(new_mailbox)
     db.session.commit()
-    
+
     rv = client.post("/retrieve/", json={"fingerprint": test_fingerprint})
     assert rv.get_json() == {
         "success": True,
         "error": None,
         "data": {"count": 0, "messages": []},
     }
-    
-    #turn below into database retrieval match? commenting for now
-    #assert rv.data== b'{"data":{"count":0,"messages":[]},"error":null,"success":true}\n'
 
+    # turn below into database retrieval match? commenting for now
+    # assert rv.data== b'{"data":{"count":0,"messages":[]},"error":null,"success":true}\n'

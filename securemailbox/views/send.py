@@ -19,14 +19,12 @@ def send():
     swagger_from_file: securemailbox/views/docs/send.yml
     """
 
-        #get fingerprint
+    # get fingerprint
     if not request.is_json:
         return (
-            jsonify(
-                {"success": False, "error": "Request must be valid json",}
-            ),
+            jsonify({"success": False, "error": "Request must be valid json",}),
             400,
-	)
+        )
 
     # get fingerprint
     fingerprint = request.json.get("fingerprint", None)

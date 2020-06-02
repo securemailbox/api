@@ -11,6 +11,7 @@ def client():
     with securemailbox.app.test_client() as client:
         yield client
 
+
 # Force fixture to be used if not explicitly imported
 @pytest.fixture(autouse=True)
 def clean_database():
