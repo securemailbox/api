@@ -18,6 +18,16 @@ def send():
     
     swagger_from_file: securemailbox/views/docs/send.yml
     """
+
+        #get fingerprint
+    if not request.is_json:
+        return (
+            jsonify(
+                {"success": False, "error": "Request must be valid json",}
+            ),
+            400,
+	)
+
     # get fingerprint
     fingerprint = request.json.get("fingerprint", None)
     if fingerprint is None:
@@ -63,7 +73,7 @@ def send():
         db.session.add(message_ob)
         db.session.commit()
 
-        return jsonify({"success": True, "error": None, data: None}), 201
+        return jsonify({"success": True, "error": None}), 201
     except DBAPIError:
         return (
             jsonify({"success": False, "error": "message failed to add to messages"}),

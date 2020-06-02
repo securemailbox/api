@@ -33,6 +33,8 @@
 !securemailbox/*.py
 !securemailbox/**/
 !securemailbox/**/*.py
+!tests/
+!tests/*.py
 
 # And of course
 !.gitignore
