@@ -1,14 +1,5 @@
 [tool.black]
 target-version = ['py36', 'py37', 'py38']
-include = '\.pyi?$'
-exclude = '''
-(
-     \.git
-    | \.mypy_cache
-    | \.venv
-    | __pycache__
-)
-'''
 
 [tool.poetry]
 name = "api"

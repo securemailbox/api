@@ -224,8 +224,8 @@ To run black on the project:
 
 ```bash
 # To check which files would be updated
-black --check ./**/*.py
+black --check .
 
 # To run black on the whole repo
-black ./**/*.py
+black .
 ```
