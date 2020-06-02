@@ -18,9 +18,6 @@ def test_send_existing(client):
     db.session.commit()
 
     rv = client.post("/send/", json={"fingerprint": test_fingerprint, "sender_fingerprint": sender_test, "message": message})
-    assert rv.get_json() == {
-        "success": True,
-        "error": None,
-    }
+    assert rv.get_json() == None
     
     

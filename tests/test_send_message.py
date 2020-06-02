@@ -21,11 +21,9 @@ def test_send_message(client):
     db.session.commit()
 
     rv = client.post("/send/", json={"fingerprint": test_fingerprint, "sender_fingerprint": sender_test, "message": messaget})
-    assert rv.get_json() == {
-        "success": True,
-        "error": None,
-    }
-    #above success match with below
+    assert rv.get_json() == None
+
+    # Above success match with below
     Id=db.session.query(Mailbox.id).filter_by(fingerprint=test_fingerprint).first()
     r_message=Message.query.filter_by(mailbox_id=Id).filter_by(message=messaget).first()
     #not sure how to get the message again directly from new_mailbox
