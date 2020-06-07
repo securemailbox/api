@@ -4,6 +4,8 @@ The Secure Mailboxes API
 
 [![Build Status](https://www.travis-ci.org/securemailbox/api.svg?branch=develop)](https://www.travis-ci.org/securemailbox/api)
 
+[![codecov](https://codecov.io/gh/securemailbox/api/branch/develop/graph/badge.svg)](https://codecov.io/gh/securemailbox/api)
+
 ### Requirements
 
 - [python 3](https://www.python.org/downloads/)
