@@ -16,10 +16,18 @@ sender_test = "FAC10F0C3D1D49F8F9A82CB553E79F7C92E1CF33"
 
 message = "test"
 
+
 def test_send_no_mailbox(client):
-#below always causes failure,                                              
-    rv = client.post("/send/", json={"fingerprint": test_fingerprint, "sender_fingerprint": sender_test, "message": message})                               
-    assert rv.get_json() == {                                                 
-        "success": False,                                                     
+    # below always causes failure,
+    rv = client.post(
+        "/send/",
+        json={
+            "fingerprint": test_fingerprint,
+            "sender_fingerprint": sender_test,
+            "message": message,
+        },
+    )
+    assert rv.get_json() == {
+        "success": False,
         "error": "no recipient fingerprint match",
     }

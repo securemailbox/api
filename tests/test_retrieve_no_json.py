@@ -8,5 +8,5 @@ def test_retrieve_no_json(client):
     assert rv.get_json() == {
         "success": False,
         "error": "Request must be valid json",
-        "data":None,
+        "data": None,
     }
