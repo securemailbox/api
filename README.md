@@ -222,12 +222,12 @@ This will run tests with filenames that start with 'test\_'.
 
 ```bash
 # Only collect coverage info for our app and generate branch coverage
-coverage run -m pytest
+poetry run coverage run -m pytest
 
-coverage report
+poetry run coverage report
 
 # Show lines missing coverage
-coverage report -m
+poetry run coverage report -m
 ```
 
 ### Formatting

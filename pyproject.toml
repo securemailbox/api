@@ -9,7 +9,15 @@ source = ["securemailbox"]
 name = "api"
 version = "0.8.0"
 description = ""
-authors = ["samgomena <samgomena@protonmail.com>"]
+authors = [
+  "Andrew Bespaly <abespaly2@pdx.edu>", 
+  "Cameron Pyne <campyne@pdx.edu>", 
+  "Dajun Gu <gdajun@pdx.edu>", 
+  "Nicholai Venetucci <npv2@pdx.edu>", 
+  "Joseph Starr <starr5@pdx.edu>", 
+  "Thomas Honnell <thonnell@pdx.edu>", 
+  "samgomena <samgomena@protonmail.com>"
+]
 license = "Apache-2.0"
 
 [tool.poetry.dependencies]
