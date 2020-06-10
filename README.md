@@ -4,6 +4,8 @@ The Secure Mailboxes API
 
 [![Build Status](https://www.travis-ci.org/securemailbox/api.svg?branch=develop)](https://www.travis-ci.org/securemailbox/api)
 
+[![codecov](https://codecov.io/gh/securemailbox/api/branch/develop/graph/badge.svg)](https://codecov.io/gh/securemailbox/api)
+
 ### Requirements
 
 - [python 3](https://www.python.org/downloads/)
@@ -208,13 +210,25 @@ This is the testing url:
 export DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/test
 ```
 
-Run with:
+##### Basic testing
 
 ```bash
 poetry run pytest
 ```
 
-This will run created tests with filenames that start with 'test'.
+This will run tests with filenames that start with 'test\_'.
+
+##### Testing with Coverage
+
+```bash
+# Only collect coverage info for our app and generate branch coverage
+coverage run -m pytest
+
+coverage report
+
+# Show lines missing coverage
+coverage report -m
+```
 
 ### Formatting
 
