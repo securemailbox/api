@@ -11,13 +11,16 @@ addons:
 env:
   - DATABASE_URL="postgres://postgres:postgres@127.0.0.1:5432/securemailbox" FLASK_ENV=testing
 install:
-  - pip install --upgrade pip setuptools pipenv
-  - pipenv install
+  - pip install --upgrade pip setuptools poetry
+  - poetry install
 before_script:
   - psql -c 'create database securemailbox;' -U postgres
 script:
-  - pipenv run pytest
+  - poetry run coverage run -m pytest
+  # Display coverage results in travis output; probably not needed as codecov also host's them
+  - poetry run coverage report
   - docker build -t securemailbox:latest .
+  - bash <(curl -s https://codecov.io/bash)
 before_deploy:
   - docker save securemailbox:latest > securemailbox.tar
 deploy:

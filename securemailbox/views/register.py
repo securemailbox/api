@@ -30,10 +30,7 @@ def register():
                 400,
             )
         # Error if fingerprint is not a valid length
-        if (
-            field == "fingerprint"
-            and len(field_value) != FINGERPRINT_LENGTH
-        ):
+        if field == "fingerprint" and len(field_value) != FINGERPRINT_LENGTH:
             return (
                 jsonify(
                     {
