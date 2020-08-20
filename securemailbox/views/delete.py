@@ -45,7 +45,7 @@ def delete():
         # validity
     if mailbox_id is None:
         return (
-    	    jsonify({"success": False, "error": "no recipient fingerprint match"}),
+    	    jsonify({"success": False, "error": "no owner fingerprint match"}),
             400,
     	)
 
@@ -59,7 +59,7 @@ def delete():
         # validity                                                             
     if message_id is None:
 	return (
-            jsonify({"success": False, "error": "no recipient fingerprint match"}),
+            jsonify({"success": False, "error": "no matching message found"}),
             400,
         )
 
